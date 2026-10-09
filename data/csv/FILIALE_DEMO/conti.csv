@@ -1,0 +1,2 @@
+﻿id_conto;iban;numero_cliente;tipo_conto;data_apertura;stato;saldo
+1;IT1111111111111111111111111;1;Corrente;2026-10-08;Attivo;9500,00
