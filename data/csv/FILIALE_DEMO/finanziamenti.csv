@@ -1,2 +1,0 @@
-﻿id_operazione;id_conto;numero_cliente;tipo;data_operazione;importo;durata_mesi;tasso;stato;finalita;eseguito
-1;1;1;Prestito;2026-10-08;10000,00;60;5,00;Approvata;bombardare israele;1

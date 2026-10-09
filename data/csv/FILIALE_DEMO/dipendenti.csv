@@ -1,4 +1,0 @@
-﻿id_dipendente;ruolo;nome;cognome;codice_fiscale;recapito;data_assunzione;specializzazione;liv_autorizzazione
-1;Direttore;Mario;Rossi;RSSMRA80A01H501U;612345678;2020-01-01;Investimenti;3
-2;Gestore;Simone;Iengo;NGISMN95E03A024S;3920109470;2026-01-01;;
-3;Gestore;Simone;Iengo;NGISMN95E03A024A;3920109471;2026-01-02;;

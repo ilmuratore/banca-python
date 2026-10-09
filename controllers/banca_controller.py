@@ -2,208 +2,226 @@ from datetime import date
 
 from models import *
 from repository.postgresql import DatabasePostgreSQL
-from services.csv_service import ParserCSV
+from services.csv_service import ServizioCSV
 
 
 class BancaController:
 
-    def __init__(self, database: DatabasePostgreSQL, csv: ParserCSV):
+    def __init__(self, database: DatabasePostgreSQL, csv: ServizioCSV):
         self.database = database
         self.csv = csv
-        self.codice_filiale = None
+        filiali = database.filiali()
+        self.codice_filiale = filiali[0]['codice_filiale'] if len(filiali) == 1 else None
+
+    def _codice(self):
+        if not self.codice_filiale: raise OperazioneNonConsentitaError('Selezionare una filiale dal menu Filiali')
+        return self.codice_filiale
 
     def filiali(self):
-        return self.database.elenco_filiali()
+        return self.database.filiali()
 
     def seleziona_filiale(self, codice):
         codice = codice.strip().upper()
-        if not self.database.esiste_filiale(codice):
-            raise OperazioneNonConsentitaError(f"Filiale {codice} non trovata")
+        filiale = self.database.filiale(codice)
+        if not filiale: raise OperazioneNonConsentitaError(f'Filiale {codice} non trovata nel database')
         self.codice_filiale = codice
-        return self.filiale()
+        return filiale
 
     def filiale(self):
-        if not self.codice_filiale:
-            raise OperazioneNonConsentitaError("Selezionare o configurare prima una filiale")
-        return self.database.carica_filiale(self.codice_filiale)
+        filiale = self.database.filiale(self._codice())
+        if filiale is None: raise OperazioneNonConsentitaError('La filiale selezionata non esiste piu')
+        return filiale
 
-    def crea_filiale(self, dati, direttore_dati, atm_dati):
-        codice = dati["codice_filiale"].strip().upper()
-        direttore = Direttore(direttore_dati["nome"], direttore_dati["cognome"], direttore_dati["codice_fiscale"], direttore_dati["recapito"], self.database.prossimo_id_dipendente(), direttore_dati["data_assunzione"], Specializzazione.INVESTIMENTI, direttore_dati["liv_autorizzazione"])
-        atm = ATM(atm_dati["codice_atm"], codice, StatoATM.ATTIVO, atm_dati["data_installazione"])
-        filiale = Filiale(codice, dati["nome"], dati["citta"], dati["provincia"], dati["regione"], dati["data_apertura"], direttore, atm)
-        self.database.inserisci_filiale(filiale)
-        return self.seleziona_filiale(codice)
+    def elenco(self, entita):
+        return self.database.lista(entita, self._codice())
 
-    def modifica_filiale(self, modifiche):
-        filiale = self.filiale()
-        for campo, valore in modifiche.items():
-            if campo in ("nome", "citta", "provincia", "regione"): setattr(filiale, campo, valore)
-        self.database.aggiorna_filiale(filiale)
-        return self.filiale()
+    def dettaglio(self, entita, identificativo):
+        risultato = self.database.dettaglio(entita, identificativo, self._codice())
+        if risultato is None: raise OperazioneNonConsentitaError(f'{entita}: record {identificativo} non trovato')
+        return risultato
 
     def cliente(self, numero_cliente):
-        for cliente in self.filiale().clienti:
-            if cliente.numero_cliente == numero_cliente: return cliente
-        raise ClienteNonValidoError(f"Cliente numero {numero_cliente} non trovato")
+        return self.dettaglio('clienti', numero_cliente)
 
     def dipendente(self, id_dipendente):
-        for dipendente in self.filiale().dipendenti:
-            if dipendente.id_dipendente == id_dipendente: return dipendente
-        raise OperazioneNonConsentitaError(f"Dipendente {id_dipendente} non trovato")
+        return self.dettaglio('dipendenti', id_dipendente)
 
     def atm(self, codice_atm):
-        for atm in self.filiale().atm:
-            if atm.codice_atm == codice_atm.strip().upper(): return atm
-        raise OperazioneNonConsentitaError(f"ATM {codice_atm} non trovato")
+        return self.dettaglio('atm', codice_atm.strip().upper())
 
     def conto(self, id_conto):
-        for cliente in self.filiale().clienti:
-            for conto in cliente.conti:
-                if conto.id_conto == id_conto: return conto
-        raise OperazioneNonConsentitaError(f"Conto {id_conto} non trovato")
+        return self.dettaglio('conti', id_conto)
 
     def finanziamento(self, id_operazione):
-        for finanziamento in self.filiale().finanziamenti:
-            if finanziamento.id_operazione == id_operazione: return finanziamento
-        raise OperazioneNonConsentitaError(f"Finanziamento {id_operazione} non trovato")
+        return self.dettaglio('finanziamenti', id_operazione)
+
+    def _oggetto_cliente(self, riga):
+        return Cliente(riga['nome'], riga['cognome'], riga['codice_fiscale'], riga['recapito'], riga['numero_cliente'], riga['email'], riga['data_nascita'], riga['citta'], riga['data_registrazione'], SegmentoCliente(riga['segmento']))
+
+    def _oggetto_dipendente(self, riga):
+        argomenti = [riga['nome'], riga['cognome'], riga['codice_fiscale'], riga['recapito'], riga['id_dipendente'], riga['data_assunzione']]
+        match riga['ruolo']:
+            case 'Gestore': return Gestore(*argomenti)
+            case 'AddettoAllaSicurezza': return AddettoAllaSicurezza(*argomenti)
+            case 'Specialista': return Specialista(*argomenti, Specializzazione(riga['specializzazione']))
+            case 'Direttore': return Direttore(*argomenti, Specializzazione(riga['specializzazione']), riga['liv_autorizzazione'])
+            case _: raise ValueError('Ruolo dipendente non valido nel database')
+
+    def _oggetto_conto(self, id_conto):
+        riga = self.conto(id_conto)
+        cliente = self._oggetto_cliente(self.cliente(riga['numero_cliente']))
+        conto = ContoCorrente(riga['id_conto'], riga['iban'], cliente, TipoConto(riga['tipo_conto']), riga['data_apertura'], StatoConto(riga['stato']))
+        conto._imposta_saldo(float(riga['saldo']))
+        return conto
+
+    def crea_filiale(self, dati, direttore_dati, atm_dati):
+        direttore = Direttore(direttore_dati['nome'], direttore_dati['cognome'], direttore_dati['codice_fiscale'], direttore_dati['recapito'], 1, direttore_dati['data_assunzione'], Specializzazione.INVESTIMENTI, direttore_dati['liv_autorizzazione'])
+        codice = dati['codice_filiale'].strip().upper()
+        atm = ATM(atm_dati['codice_atm'], codice, StatoATM.ATTIVO, atm_dati['data_installazione'])
+        filiale = Filiale(codice, dati['nome'], dati['citta'], dati['provincia'], dati['regione'], dati['data_apertura'], direttore, atm)
+        risultato = self.database.nuova_filiale(filiale, direttore, atm)
+        self.codice_filiale = codice
+        return risultato
+
+    def modifica_filiale(self, modifiche):
+        attuale = self.filiale()
+        direttore = self._oggetto_dipendente(self.dipendente(attuale['direttore_id']))
+        dati = {campo: modifiche.get(campo, attuale[campo]) for campo in ('nome','citta','provincia','regione')}
+        validata = Filiale(attuale['codice_filiale'], dati['nome'], dati['citta'], dati['provincia'], dati['regione'], attuale['data_apertura'], direttore)
+        valori = {campo: getattr(validata, campo) for campo in dati}
+        return self.database.modifica('filiale', self._codice(), self._codice(), valori)
 
     def crea_cliente(self, dati):
-        cliente = Cliente(dati["nome"], dati["cognome"], dati["codice_fiscale"], dati["recapito"], self.database.prossimo_numero_cliente(), dati["email"], dati["data_nascita"], dati["citta"], date.today(), dati["segmento"])
-        filiale = self.filiale()
-        filiale.aggiungi_cliente(cliente)
-        self.database.inserisci_cliente(filiale.codice_filiale, cliente)
-        return self.cliente(cliente.numero_cliente)
+        cliente = Cliente(dati['nome'], dati['cognome'], dati['codice_fiscale'], dati['recapito'], 1, dati['email'], dati['data_nascita'], dati['citta'], date.today(), dati['segmento'])
+        return self.database.nuovo_cliente(self._codice(), cliente)
 
     def modifica_cliente(self, numero_cliente, modifiche):
-        cliente = self.cliente(numero_cliente)
-        for campo, valore in modifiche.items():
-            if campo in ("nome", "cognome", "codice_fiscale", "recapito", "email", "citta", "segmento"): setattr(cliente, campo, valore)
-        self.database.aggiorna_cliente(cliente)
-        return self.cliente(numero_cliente)
+        cliente = self._oggetto_cliente(self.cliente(numero_cliente))
+        for campo, valore in modifiche.items(): setattr(cliente, campo, valore)
+        valori = {campo: getattr(cliente, campo).value if campo == 'segmento' else getattr(cliente, campo) for campo in modifiche}
+        return self.database.modifica('clienti', numero_cliente, self._codice(), valori)
 
     def crea_dipendente(self, ruolo, dati):
-        parametri = [dati["nome"], dati["cognome"], dati["codice_fiscale"], dati["recapito"], self.database.prossimo_id_dipendente(), dati["data_assunzione"]]
+        args = [dati['nome'], dati['cognome'], dati['codice_fiscale'], dati['recapito'], 1, dati['data_assunzione']]
         match ruolo:
-            case "Gestore": dipendente = Gestore(*parametri)
-            case "Specialista": dipendente = Specialista(*parametri, dati["specializzazione"])
-            case "AddettoAllaSicurezza": dipendente = AddettoAllaSicurezza(*parametri)
-            case _: raise ValueError("Ruolo non valido")
-        filiale = self.filiale()
-        filiale.aggiungi_dipendente(dipendente)
-        self.database.inserisci_dipendente(filiale.codice_filiale, dipendente)
-        return self.dipendente(dipendente.id_dipendente)
+            case 'Gestore': dipendente = Gestore(*args)
+            case 'Specialista': dipendente = Specialista(*args, dati['specializzazione'])
+            case 'AddettoAllaSicurezza': dipendente = AddettoAllaSicurezza(*args)
+            case _: raise ValueError('Ruolo non valido')
+        return self.database.nuovo_dipendente(self._codice(), dipendente, ruolo)
 
     def modifica_dipendente(self, id_dipendente, modifiche):
-        dipendente = self.dipendente(id_dipendente)
+        dipendente = self._oggetto_dipendente(self.dipendente(id_dipendente))
         for campo, valore in modifiche.items():
-            if campo in ("nome", "cognome", "codice_fiscale", "recapito"): setattr(dipendente, campo, valore)
-            if campo == "specializzazione" and isinstance(dipendente, Specialista): dipendente.specializzazione = valore
-            if campo == "liv_autorizzazione" and isinstance(dipendente, Direttore):
-                if not isinstance(valore, int) or valore <= 0: raise ValueError("Livello autorizzazione non valido")
-                dipendente.liv_autorizzazione = valore
-        self.database.aggiorna_dipendente(dipendente)
-        return self.dipendente(id_dipendente)
+            if campo == 'specializzazione' and not isinstance(dipendente, Specialista): raise ValueError('Ruolo senza specializzazione')
+            if campo == 'liv_autorizzazione' and not isinstance(dipendente, Direttore): raise ValueError('Solo il direttore ha un livello di autorizzazione')
+            if campo == 'liv_autorizzazione' and (type(valore) is not int or valore <= 0): raise ValueError('Livello autorizzazione non valido')
+            setattr(dipendente, campo, valore)
+        valori = {campo: getattr(dipendente, campo).value if campo == 'specializzazione' else getattr(dipendente, campo) for campo in modifiche}
+        return self.database.modifica('dipendenti', id_dipendente, self._codice(), valori)
 
     def crea_atm(self, codice_atm, data_installazione):
-        filiale = self.filiale()
-        atm = ATM(codice_atm, filiale.codice_filiale, StatoATM.ATTIVO, data_installazione)
-        filiale.aggiungi_atm(atm)
-        self.database.inserisci_atm(atm)
-        return self.atm(atm.codice_atm)
+        return self.database.nuovo_atm(ATM(codice_atm, self._codice(), StatoATM.ATTIVO, data_installazione))
 
     def modifica_atm(self, codice_atm, stato):
-        atm = self.atm(codice_atm)
-        if not isinstance(stato, StatoATM): raise ValueError("Stato ATM non valido")
+        riga = self.atm(codice_atm)
+        atm = ATM(riga['codice_atm'], riga['codice_filiale'], StatoATM(riga['stato']), riga['data_installazione'])
+        if not isinstance(stato, StatoATM): raise TypeError('Stato ATM non valido')
         atm.stato = stato
-        self.database.aggiorna_atm(atm)
-        return self.atm(codice_atm)
+        return self.database.modifica('atm', atm.codice_atm, self._codice(), {'stato': atm.stato.value})
 
     def apri_conto(self, numero_cliente, iban, tipo_conto):
-        filiale = self.filiale()
-        cliente = next((c for c in filiale.clienti if c.numero_cliente == numero_cliente), None)
-        if cliente is None: raise ClienteNonValidoError("Cliente non trovato")
-        conto = filiale.direttore.apri_conto(self.database.prossimo_id_conto(), iban, cliente, tipo_conto, date.today())
-        self.database.inserisci_conto(conto)
-        return self.conto(conto.id_conto)
+        cliente = self._oggetto_cliente(self.cliente(numero_cliente))
+        conto = ContoCorrente(1, iban, cliente, tipo_conto, date.today())
+        return self.database.nuovo_conto(self._codice(), conto)
 
     def modifica_conto(self, id_conto, iban, tipo_conto, stato):
-        conto = self.conto(id_conto)
+        conto = self._oggetto_conto(id_conto)
         conto.iban = iban
         conto.tipo_conto = tipo_conto
         conto.stato = stato
-        self.database.aggiorna_conto(conto)
-        return self.conto(id_conto)
+        return self.database.modifica('conti', id_conto, self._codice(), {'iban': conto.iban, 'tipo_conto': conto.tipo_conto.value, 'stato': conto.stato.value})
 
     def versamento(self, id_conto, importo, tipo, causale):
-        filiale = self.filiale()
-        conto = next((c for cl in filiale.clienti for c in cl.conti if c.id_conto == id_conto), None)
-        if conto is None: raise OperazioneNonConsentitaError("Conto non trovato")
-        movimento = filiale.direttore.versa(self.database.prossimo_id_operazione(), conto, importo, tipo, CanaleOperazione.FILIALE, causale)
-        self.database.inserisci_movimento(movimento, filiale.codice_filiale)
-        return movimento, self.conto(id_conto).saldo
+        conto = self._oggetto_conto(id_conto)
+        movimento = Versamento(1, date.today(), importo, conto, tipo, CanaleOperazione.FILIALE, causale)
+        dati = {'id_conto': id_conto, 'tipo': 'Versamento', 'data_operazione': movimento.data_operazione, 'importo': movimento.importo, 'canale': movimento.canale.value, 'causale': movimento.causale, 'tipo_versamento': movimento.tipo_versamento.value}
+        return self.database.nuovo_movimento(self._codice(), dati)
 
     def prelievo_atm(self, codice_atm, id_conto, importo):
-        filiale = self.filiale()
-        atm = next((a for a in filiale.atm if a.codice_atm == codice_atm.strip().upper()), None)
-        conto = next((c for cl in filiale.clienti for c in cl.conti if c.id_conto == id_conto), None)
-        if atm is None or conto is None: raise OperazioneNonConsentitaError("ATM o conto non trovato")
-        movimento = atm.preleva(self.database.prossimo_id_operazione(), conto, importo)
-        self.database.inserisci_movimento(movimento, filiale.codice_filiale)
-        return movimento, self.conto(id_conto).saldo
+        riga = self.atm(codice_atm)
+        atm = ATM(riga['codice_atm'], riga['codice_filiale'], StatoATM(riga['stato']), riga['data_installazione'])
+        atm.verifica_operativo()
+        conto = self._oggetto_conto(id_conto)
+        movimento = Prelievo(1, date.today(), importo, conto, CanaleOperazione.ATM, f'Prelievo ATM {atm.codice_atm}')
+        dati = {'id_conto': id_conto, 'tipo': 'Prelievo', 'data_operazione': movimento.data_operazione, 'importo': movimento.importo, 'canale': movimento.canale.value, 'causale': movimento.causale, 'tipo_versamento': None}
+        return self.database.nuovo_movimento(self._codice(), dati, atm.codice_atm)
 
     def crea_finanziamento(self, tipo, id_conto, importo, durata_mesi, tasso, finalita):
-        filiale = self.filiale()
-        conto = next((c for cl in filiale.clienti for c in cl.conti if c.id_conto == id_conto), None)
-        if conto is None: raise OperazioneNonConsentitaError("Conto non trovato")
-        id_operazione = self.database.prossimo_id_operazione()
-        match tipo:
-            case "Prestito": finanziamento = filiale.direttore.richiedi_prestito(id_operazione, date.today(), importo, conto, durata_mesi, tasso, finalita)
-            case "Mutuo": finanziamento = filiale.direttore.richiedi_mutuo(id_operazione, date.today(), importo, conto, durata_mesi, tasso, finalita)
-            case _: raise ValueError("Tipo finanziamento non valido")
-        filiale.aggiungi_finanziamento(finanziamento)
-        self.database.inserisci_finanziamento(finanziamento)
-        return self.finanziamento(id_operazione)
+        conto = self._oggetto_conto(id_conto)
+        if tipo == 'Prestito': fin = Prestito(1, date.today(), importo, conto, durata_mesi, tasso, finalita)
+        elif tipo == 'Mutuo': fin = Mutuo(1, date.today(), importo, conto, durata_mesi, tasso, finalita)
+        else: raise ValueError('Tipo finanziamento non valido')
+        dati = {'id_conto': id_conto, 'numero_cliente': conto.intestatario.numero_cliente, 'tipo': tipo, 'data_operazione': fin.data_operazione, 'importo': fin.importo, 'durata_mesi': fin.durata_mesi, 'tasso': fin.tasso, 'stato': 'Richiesta', 'finalita': fin.finalita, 'eseguito': False}
+        return self.database.nuovo_finanziamento(self._codice(), dati)
 
     def delibera_finanziamento(self, id_operazione, stato):
-        filiale = self.filiale()
-        finanziamento = next((f for f in filiale.finanziamenti if f.id_operazione == id_operazione), None)
-        if finanziamento is None: raise OperazioneNonConsentitaError("Finanziamento non trovato")
-        filiale.direttore.cambia_stato_finanziamento(finanziamento, stato)
-        self.database.delibera_finanziamento(id_operazione, stato, filiale.codice_filiale)
-        return self.finanziamento(id_operazione)
+        if not isinstance(stato, StatoRichiesta): raise TypeError('Stato finanziamento non valido')
+        return self.database.delibera_finanziamento(self._codice(), id_operazione, stato.value)
 
     def investimento(self, id_conto, importo, prodotto, profilo_rischio, rendimento_atteso):
-        filiale = self.filiale()
-        conto = next((c for cl in filiale.clienti for c in cl.conti if c.id_conto == id_conto), None)
-        if conto is None: raise OperazioneNonConsentitaError("Conto non trovato")
-        inv = filiale.direttore.investi(self.database.prossimo_id_operazione(), date.today(), importo, conto, prodotto, profilo_rischio, rendimento_atteso)
-        self.database.inserisci_investimento(inv, filiale.codice_filiale)
-        return next(i for i in self.filiale().investimenti if i.id_operazione == inv.id_operazione)
+        conto = self._oggetto_conto(id_conto)
+        inv = Investimento(1, date.today(), importo, conto, prodotto, profilo_rischio, rendimento_atteso)
+        dati = {'id_conto': id_conto, 'numero_cliente': conto.intestatario.numero_cliente, 'data_operazione': inv.data_operazione, 'importo': inv.importo, 'prodotto': inv.prodotto, 'profilo_rischio': inv.profilo_rischio.value, 'rendimento_atteso': inv.rendimento_atteso, 'stato': inv.stato.value, 'eseguito': True}
+        return self.database.nuovo_investimento(self._codice(), dati)
 
     def movimenti(self, id_conto):
-        return sorted(self.conto(id_conto).movimenti, key=lambda x: (x.data_operazione, x.id_operazione))
+        self.conto(id_conto)
+        return self.database.movimenti_conto(self._codice(), id_conto)
 
-    def movimenti_periodo(self, data_inizio, data_fine):
-        if data_fine < data_inizio: raise ValueError("Data finale precedente alla data iniziale")
-        filiale = self.filiale()
-        return sorted((m for cl in filiale.clienti for c in cl.conti for m in c.movimenti if data_inizio <= m.data_operazione <= data_fine), key=lambda x: (x.data_operazione, x.id_operazione))
+    def movimenti_periodo(self, inizio, fine):
+        if fine < inizio: raise ValueError('La data finale precede la data iniziale')
+        return self.database.movimenti_periodo(self._codice(), inizio, fine)
 
     def report(self):
-        codice = self.filiale().codice_filiale
-        return {
-            "saldi": self.database.report_saldi(codice),
-            "segmenti": self.database.report_clienti_segmento(codice),
-            "canali": self.database.report_operazioni_canale(codice),
-            "finanziamenti": self.database.report_finanziamenti_stato(codice)
-        }
+        return self.database.report(self._codice())
 
     def esporta_csv(self, entita, percorso=None):
-        return self.csv.esporta_entita(self.filiale(), entita, percorso)
+        righe = self.elenco(entita)
+        return self.csv.esporta_entita(entita, righe, self._codice(), percorso)
+
+    def valida_csv(self, entita, riga):
+        if entita == 'filiale':
+            filiale = self.filiale()
+            direttore = self._oggetto_dipendente(self.dipendente(filiale['direttore_id']))
+            Filiale(riga['codice_filiale'], riga['nome_filiale'], riga['citta'], riga['provincia'], riga['regione'], riga['data_apertura'], direttore)
+        elif entita == 'clienti':
+            self._oggetto_cliente(riga)
+        elif entita == 'dipendenti':
+            self._oggetto_dipendente(riga)
+        elif entita == 'atm':
+            ATM(riga['codice_atm'], riga['codice_filiale'], StatoATM(riga['stato']), riga['data_installazione'])
+        elif entita == 'conti':
+            cliente = self._oggetto_cliente(self.cliente(riga['numero_cliente']))
+            ContoCorrente(riga['id_conto'], riga['iban'], cliente, TipoConto(riga['tipo_conto']), riga['data_apertura'], StatoConto(riga['stato']))
+        elif entita in ('movimenti', 'finanziamenti', 'investimenti'):
+            conto = self._oggetto_conto(riga['id_conto'])
+            if entita == 'movimenti':
+                args = [riga['id_operazione'], riga['data_operazione'], float(riga['importo']), conto]
+                if riga['tipo'] == 'Versamento': Versamento(*args, TipoVersamento(riga['tipo_versamento']), CanaleOperazione(riga['canale']), riga['causale'])
+                elif riga['tipo'] == 'Prelievo': Prelievo(*args, CanaleOperazione(riga['canale']), riga['causale'])
+                else: raise ValueError('Tipo movimento non valido nel CSV')
+            elif entita == 'finanziamenti':
+                args = [riga['id_operazione'], riga['data_operazione'], float(riga['importo']), conto, riga['durata_mesi'], float(riga['tasso']), riga['finalita']]
+                if riga['tipo'] == 'Prestito': Prestito(*args)
+                elif riga['tipo'] == 'Mutuo': Mutuo(*args)
+                else: raise ValueError('Tipo finanziamento non valido nel CSV')
+            else:
+                Investimento(riga['id_operazione'], riga['data_operazione'], float(riga['importo']), conto, riga['prodotto'], ProfiloRischio(riga['profilo_rischio']), float(riga['rendimento_atteso']))
 
     def importa_csv(self, entita, percorso):
-        filiale = self.filiale()
         righe = self.csv.importa_entita(entita, percorso)
-        totale = self.database.importa_righe(entita, righe, filiale.codice_filiale)
-        self.filiale()  # Verifica ricostruzione completa dopo il commit.
-        return totale
+        for numero, riga in enumerate(righe, 2):
+            try: self.valida_csv(entita, riga)
+            except (ValueError, TypeError) as errore: raise ValueError(f'CSV {entita}, riga {numero}: {errore}') from errore
+        return self.database.importa(entita, righe, self._codice())

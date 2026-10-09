@@ -1,2 +1,0 @@
-﻿id_operazione;id_conto;tipo;data_operazione;importo;canale;causale;tipo_versamento
-2;1;Prelievo;2026-10-08;500,00;ATM;Prelievo ATM ATM_DEMO_01;
