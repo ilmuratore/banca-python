@@ -30,7 +30,7 @@ class DatabasePostgreSQL:
     MODIFICABILI = {
         'filiale': ('nome', 'citta', 'provincia', 'regione'),
         'clienti': ('nome', 'cognome', 'codice_fiscale', 'recapito', 'email', 'citta', 'segmento'),
-        'dipendenti': ('nome', 'cognome', 'codice_fiscale', 'recapito', 'specializzazione', 'liv_autorizzazione'),
+        'dipendenti': ('nome', 'cognome', 'codice_fiscale', 'recapito', 'data_assunzione', 'ruolo', 'specializzazione', 'liv_autorizzazione', 'codice_filiale'),
         'atm': ('stato',),
         'conti': ('iban', 'tipo_conto', 'stato')
     }
@@ -172,7 +172,33 @@ class DatabasePostgreSQL:
         self._scrittura(azione)
         return self.dettaglio('conti', conto.id_conto, codice)
 
+    def modifica_dipendente(self, id_dipendente, codice, dati):
+        def azione(cur):
+            cur.execute('select * from dipendente where id_dipendente = %s and codice_filiale = %s for update', (id_dipendente, codice))
+            precedente = cur.fetchone()
+            if precedente is None: raise OperazioneNonConsentitaError('Dipendente non trovato nella filiale')
+
+            nuova_filiale = dati['codice_filiale']
+            cur.execute('select direttore_id from filiale where codice_filiale = %s for update', (nuova_filiale,))
+            filiale = cur.fetchone()
+            if filiale is None: raise OperazioneNonConsentitaError('Filiale di destinazione inesistente')
+
+            cambio_filiale = codice != nuova_filiale
+            cambio_ruolo = dati['ruolo'] != 'Direttore'
+            if cambio_filiale or cambio_ruolo:
+                cur.execute('update filiale set direttore_id = null where direttore_id = %s', (id_dipendente,))
+
+            cur.execute('update dipendente set codice_filiale = %s, ruolo = %s, nome = %s, cognome = %s, codice_fiscale = %s, recapito = %s, data_assunzione = %s, specializzazione = %s, liv_autorizzazione = %s where id_dipendente = %s and codice_filiale = %s', (dati['codice_filiale'], dati['ruolo'], dati['nome'], dati['cognome'], dati['codice_fiscale'], dati['recapito'], dati['data_assunzione'], dati['specializzazione'], dati['liv_autorizzazione'], id_dipendente, codice))
+            if cur.rowcount != 1: raise OperazioneNonConsentitaError('Dipendente non aggiornato')
+
+            if dati['ruolo'] == 'Direttore' and (filiale['direttore_id'] is None or filiale['direttore_id'] == id_dipendente):
+                cur.execute('update filiale set direttore_id = %s where codice_filiale = %s', (id_dipendente, nuova_filiale))
+
+        self._scrittura(azione)
+        return self.dettaglio('dipendenti', id_dipendente, dati['codice_filiale'])
+
     def modifica(self, entita, chiave, codice, modifiche):
+        if entita == 'dipendenti': raise ValueError('Per i dipendenti utilizzare modifica_dipendente')
         consentiti = self.MODIFICABILI.get(entita)
         if not consentiti or not modifiche or set(modifiche) - set(consentiti): raise ValueError('Campi da modificare non consentiti')
         tabella, pk = self.NOMI_TABELLE[entita], self.CHIAVI[entita]

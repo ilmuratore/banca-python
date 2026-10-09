@@ -111,14 +111,38 @@ class BancaController:
         return self.database.nuovo_dipendente(self._codice(), dipendente, ruolo)
 
     def modifica_dipendente(self, id_dipendente, modifiche):
-        dipendente = self._oggetto_dipendente(self.dipendente(id_dipendente))
-        for campo, valore in modifiche.items():
-            if campo == 'specializzazione' and not isinstance(dipendente, Specialista): raise ValueError('Ruolo senza specializzazione')
-            if campo == 'liv_autorizzazione' and not isinstance(dipendente, Direttore): raise ValueError('Solo il direttore ha un livello di autorizzazione')
-            if campo == 'liv_autorizzazione' and (type(valore) is not int or valore <= 0): raise ValueError('Livello autorizzazione non valido')
-            setattr(dipendente, campo, valore)
-        valori = {campo: getattr(dipendente, campo).value if campo == 'specializzazione' else getattr(dipendente, campo) for campo in modifiche}
-        return self.database.modifica('dipendenti', id_dipendente, self._codice(), valori)
+        precedente = self.dipendente(id_dipendente)
+        consentiti = ('nome', 'cognome', 'codice_fiscale', 'recapito', 'data_assunzione', 'ruolo', 'specializzazione', 'liv_autorizzazione', 'codice_filiale')
+        if not modifiche or set(modifiche) - set(consentiti): raise ValueError('Campi non modificabili')
+
+        dati = {campo: modifiche.get(campo, precedente.get(campo)) for campo in consentiti}
+        dati['codice_filiale'] = dati['codice_filiale'].strip().upper()
+        ruolo = dati['ruolo']
+        if isinstance(dati['specializzazione'], Specializzazione): dati['specializzazione'] = dati['specializzazione'].value
+
+        if ruolo not in ('Gestore', 'Specialista', 'Direttore', 'AddettoAllaSicurezza'): raise ValueError('Ruolo non valido')
+        if ruolo not in ('Specialista', 'Direttore'):
+            dati['specializzazione'] = None
+        elif dati['specializzazione'] is None:
+            raise ValueError('La specializzazione e obbligatoria per il ruolo scelto')
+        if ruolo != 'Direttore':
+            dati['liv_autorizzazione'] = None
+        elif type(dati['liv_autorizzazione']) is not int or dati['liv_autorizzazione'] <= 0:
+            raise ValueError('Il livello di autorizzazione deve essere un intero positivo')
+
+        validato = self._oggetto_dipendente({'id_dipendente': id_dipendente, **dati})
+        valori = {
+            'nome': validato.nome,
+            'cognome': validato.cognome,
+            'codice_fiscale': validato.codice_fiscale,
+            'recapito': validato.recapito,
+            'data_assunzione': validato.data_assunzione,
+            'ruolo': ruolo,
+            'specializzazione': validato.specializzazione.value if isinstance(validato, Specialista) else None,
+            'liv_autorizzazione': validato.liv_autorizzazione if isinstance(validato, Direttore) else None,
+            'codice_filiale': dati['codice_filiale']
+        }
+        return self.database.modifica_dipendente(id_dipendente, self._codice(), valori)
 
     def crea_atm(self, codice_atm, data_installazione):
         return self.database.nuovo_atm(ATM(codice_atm, self._codice(), StatoATM.ATTIVO, data_installazione))

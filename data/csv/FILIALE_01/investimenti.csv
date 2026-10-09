@@ -1,0 +1,201 @@
+﻿id_operazione;id_conto;numero_cliente;data_operazione;importo;prodotto;profilo_rischio;rendimento_atteso;stato;eseguito
+42001;30001;10001;01/09/2026;461,51;Deposito vincolato;Basso;1,25;Chiuso;1
+42002;30002;10002;02/09/2026;482,10;Obbligazioni;Medio;1,95;Attivo;1
+42003;30003;10003;03/09/2026;534,09;Fondo bilanciato;Alto;2,65;Attivo;1
+42004;30004;10004;04/09/2026;201,11;Fondo azionario;Basso;3,35;Attivo;1
+42005;30005;10005;05/09/2026;682,24;Deposito vincolato;Medio;4,05;Attivo;1
+42006;30006;10006;06/09/2026;425,11;Obbligazioni;Alto;4,75;Attivo;1
+42007;30007;10007;07/09/2026;635,32;Fondo bilanciato;Basso;5,45;Attivo;1
+42008;30008;10008;08/09/2026;438,84;Fondo azionario;Medio;6,15;Attivo;1
+42009;30009;10009;09/09/2026;260,39;Deposito vincolato;Alto;6,85;Attivo;1
+42010;30010;10010;10/09/2026;471,00;Obbligazioni;Basso;7,55;Attivo;1
+42011;30011;10011;11/09/2026;205,42;Fondo bilanciato;Medio;8,25;Chiuso;1
+42012;30012;10012;12/09/2026;683,88;Fondo azionario;Alto;1,55;Attivo;1
+42013;30013;10013;13/09/2026;802,54;Deposito vincolato;Basso;2,25;Attivo;1
+42014;30014;10014;14/09/2026;433,96;Obbligazioni;Medio;2,95;Attivo;1
+42015;30015;10015;15/09/2026;241,58;Fondo bilanciato;Alto;3,65;Attivo;1
+42016;30016;10016;16/09/2026;676,34;Fondo azionario;Basso;4,35;Attivo;1
+42017;30017;10017;17/09/2026;310,85;Deposito vincolato;Medio;5,05;Attivo;1
+42018;30018;10018;18/09/2026;481,79;Obbligazioni;Alto;5,75;Attivo;1
+42019;30019;10019;19/09/2026;196,46;Fondo bilanciato;Basso;6,45;Attivo;1
+42020;30020;10020;20/09/2026;816,41;Fondo azionario;Medio;7,15;Attivo;1
+42021;30021;10021;21/09/2026;215,08;Deposito vincolato;Alto;7,85;Chiuso;1
+42022;30022;10022;22/09/2026;305,74;Obbligazioni;Basso;8,55;Attivo;1
+42023;30023;10023;23/09/2026;663,24;Fondo bilanciato;Medio;1,85;Attivo;1
+42024;30024;10024;24/09/2026;618,91;Fondo azionario;Alto;2,55;Attivo;1
+42025;30025;10025;25/09/2026;445,57;Deposito vincolato;Basso;3,25;Attivo;1
+42026;30026;10026;26/09/2026;835,09;Obbligazioni;Medio;3,95;Attivo;1
+42027;30027;10027;27/09/2026;655,02;Fondo bilanciato;Alto;4,65;Attivo;1
+42028;30028;10028;01/09/2026;518,06;Fondo azionario;Basso;5,35;Attivo;1
+42029;30029;10029;02/09/2026;821,31;Deposito vincolato;Medio;6,05;Attivo;1
+42030;30030;10030;03/09/2026;199,55;Obbligazioni;Alto;6,75;Attivo;1
+42031;30031;10031;04/09/2026;231,93;Fondo bilanciato;Basso;7,45;Chiuso;1
+42032;30032;10032;05/09/2026;260,94;Fondo azionario;Medio;8,15;Attivo;1
+42033;30033;10033;06/09/2026;247,20;Deposito vincolato;Alto;1,45;Attivo;1
+42034;30034;10034;07/09/2026;544,44;Obbligazioni;Basso;2,15;Attivo;1
+42035;30035;10035;08/09/2026;545,93;Fondo bilanciato;Medio;2,85;Attivo;1
+42036;30036;10036;09/09/2026;407,21;Fondo azionario;Alto;3,55;Attivo;1
+42037;30037;10037;10/09/2026;273,10;Deposito vincolato;Basso;4,25;Attivo;1
+42038;30038;10038;11/09/2026;822,14;Obbligazioni;Medio;4,95;Attivo;1
+42039;30039;10039;12/09/2026;780,86;Fondo bilanciato;Alto;5,65;Attivo;1
+42040;30040;10040;13/09/2026;693,77;Fondo azionario;Basso;6,35;Attivo;1
+42041;30041;10041;14/09/2026;167,96;Deposito vincolato;Medio;7,05;Chiuso;1
+42042;30042;10042;15/09/2026;360,97;Obbligazioni;Alto;7,75;Attivo;1
+42043;30043;10043;16/09/2026;192,10;Fondo bilanciato;Basso;8,45;Attivo;1
+42044;30044;10044;17/09/2026;209,44;Fondo azionario;Medio;1,75;Attivo;1
+42045;30045;10045;18/09/2026;820,44;Deposito vincolato;Alto;2,45;Attivo;1
+42046;30046;10046;19/09/2026;383,64;Obbligazioni;Basso;3,15;Attivo;1
+42047;30047;10047;20/09/2026;474,29;Fondo bilanciato;Medio;3,85;Attivo;1
+42048;30048;10048;21/09/2026;270,36;Fondo azionario;Alto;4,55;Attivo;1
+42049;30049;10049;22/09/2026;594,80;Deposito vincolato;Basso;5,25;Attivo;1
+42050;30050;10050;23/09/2026;511,00;Obbligazioni;Medio;5,95;Attivo;1
+42051;30051;10051;24/09/2026;429,51;Fondo bilanciato;Alto;6,65;Chiuso;1
+42052;30052;10052;25/09/2026;602,26;Fondo azionario;Basso;7,35;Attivo;1
+42053;30053;10053;26/09/2026;496,31;Deposito vincolato;Medio;8,05;Attivo;1
+42054;30054;10054;27/09/2026;578,24;Obbligazioni;Alto;1,35;Attivo;1
+42055;30055;10055;01/09/2026;471,51;Fondo bilanciato;Basso;2,05;Attivo;1
+42056;30056;10056;02/09/2026;639,21;Fondo azionario;Medio;2,75;Attivo;1
+42057;30057;10057;03/09/2026;729,38;Deposito vincolato;Alto;3,45;Attivo;1
+42058;30058;10058;04/09/2026;295,73;Obbligazioni;Basso;4,15;Attivo;1
+42059;30059;10059;05/09/2026;701,15;Fondo bilanciato;Medio;4,85;Attivo;1
+42060;30060;10060;06/09/2026;585,06;Fondo azionario;Alto;5,55;Attivo;1
+42061;30061;10061;07/09/2026;212,95;Deposito vincolato;Basso;6,25;Chiuso;1
+42062;30062;10062;08/09/2026;277,92;Obbligazioni;Medio;6,95;Attivo;1
+42063;30063;10063;09/09/2026;390,56;Fondo bilanciato;Alto;7,65;Attivo;1
+42064;30064;10064;10/09/2026;358,05;Fondo azionario;Basso;8,35;Attivo;1
+42065;30065;10065;11/09/2026;539,61;Deposito vincolato;Medio;1,65;Attivo;1
+42066;30066;10066;12/09/2026;243,40;Obbligazioni;Alto;2,35;Attivo;1
+42067;30067;10067;13/09/2026;635,29;Fondo bilanciato;Basso;3,05;Attivo;1
+42068;30068;10068;14/09/2026;249,97;Fondo azionario;Medio;3,75;Attivo;1
+42069;30069;10069;15/09/2026;841,58;Deposito vincolato;Alto;4,45;Attivo;1
+42070;30070;10070;16/09/2026;740,13;Obbligazioni;Basso;5,15;Attivo;1
+42071;30071;10071;17/09/2026;246,90;Fondo bilanciato;Medio;5,85;Chiuso;1
+42072;30072;10072;18/09/2026;279,02;Fondo azionario;Alto;6,55;Attivo;1
+42073;30073;10073;19/09/2026;406,40;Deposito vincolato;Basso;7,25;Attivo;1
+42074;30074;10074;20/09/2026;277,17;Obbligazioni;Medio;7,95;Attivo;1
+42075;30075;10075;21/09/2026;280,55;Fondo bilanciato;Alto;1,25;Attivo;1
+42076;30076;10076;22/09/2026;818,06;Fondo azionario;Basso;1,95;Attivo;1
+42077;30077;10077;23/09/2026;677,51;Deposito vincolato;Medio;2,65;Attivo;1
+42078;30078;10078;24/09/2026;828,50;Obbligazioni;Alto;3,35;Attivo;1
+42079;30079;10079;25/09/2026;178,97;Fondo bilanciato;Basso;4,05;Attivo;1
+42080;30080;10080;26/09/2026;681,31;Fondo azionario;Medio;4,75;Attivo;1
+42081;30081;10081;27/09/2026;846,74;Deposito vincolato;Alto;5,45;Chiuso;1
+42082;30082;10082;01/09/2026;598,88;Obbligazioni;Basso;6,15;Attivo;1
+42083;30083;10083;02/09/2026;225,55;Fondo bilanciato;Medio;6,85;Attivo;1
+42084;30084;10084;03/09/2026;842,28;Fondo azionario;Alto;7,55;Attivo;1
+42085;30085;10085;04/09/2026;253,94;Deposito vincolato;Basso;8,25;Attivo;1
+42086;30086;10086;05/09/2026;290,75;Obbligazioni;Medio;1,55;Attivo;1
+42087;30087;10087;06/09/2026;357,75;Fondo bilanciato;Alto;2,25;Attivo;1
+42088;30088;10088;07/09/2026;750,11;Fondo azionario;Basso;2,95;Attivo;1
+42089;30089;10089;08/09/2026;768,14;Deposito vincolato;Medio;3,65;Attivo;1
+42090;30090;10090;09/09/2026;275,94;Obbligazioni;Alto;4,35;Attivo;1
+42091;30091;10091;10/09/2026;468,35;Fondo bilanciato;Basso;5,05;Chiuso;1
+42092;30092;10092;11/09/2026;315,31;Fondo azionario;Medio;5,75;Attivo;1
+42093;30093;10093;12/09/2026;838,36;Deposito vincolato;Alto;6,45;Attivo;1
+42094;30094;10094;13/09/2026;708,94;Obbligazioni;Basso;7,15;Attivo;1
+42095;30095;10095;14/09/2026;729,50;Fondo bilanciato;Medio;7,85;Attivo;1
+42096;30096;10096;15/09/2026;428,54;Fondo azionario;Alto;8,55;Attivo;1
+42097;30097;10097;16/09/2026;603,99;Deposito vincolato;Basso;1,85;Attivo;1
+42098;30098;10098;17/09/2026;389,65;Obbligazioni;Medio;2,55;Attivo;1
+42099;30099;10099;18/09/2026;289,32;Fondo bilanciato;Alto;3,25;Attivo;1
+42100;30100;10100;19/09/2026;463,66;Fondo azionario;Basso;3,95;Attivo;1
+42101;30101;10101;20/09/2026;718,61;Deposito vincolato;Medio;4,65;Chiuso;1
+42102;30102;10102;21/09/2026;510,65;Obbligazioni;Alto;5,35;Attivo;1
+42103;30103;10103;22/09/2026;551,92;Fondo bilanciato;Basso;6,05;Attivo;1
+42104;30104;10104;23/09/2026;253,16;Fondo azionario;Medio;6,75;Attivo;1
+42105;30105;10105;24/09/2026;621,65;Deposito vincolato;Alto;7,45;Attivo;1
+42106;30106;10106;25/09/2026;633,80;Obbligazioni;Basso;8,15;Attivo;1
+42107;30107;10107;26/09/2026;207,47;Fondo bilanciato;Medio;1,45;Attivo;1
+42108;30108;10108;27/09/2026;835,92;Fondo azionario;Alto;2,15;Attivo;1
+42109;30109;10109;01/09/2026;211,71;Deposito vincolato;Basso;2,85;Attivo;1
+42110;30110;10110;02/09/2026;176,85;Obbligazioni;Medio;3,55;Attivo;1
+42111;30111;10111;03/09/2026;331,07;Fondo bilanciato;Alto;4,25;Chiuso;1
+42112;30112;10112;04/09/2026;242,84;Fondo azionario;Basso;4,95;Attivo;1
+42113;30113;10113;05/09/2026;309,08;Deposito vincolato;Medio;5,65;Attivo;1
+42114;30114;10114;06/09/2026;721,10;Obbligazioni;Alto;6,35;Attivo;1
+42115;30115;10115;07/09/2026;375,11;Fondo bilanciato;Basso;7,05;Attivo;1
+42116;30116;10116;08/09/2026;774,90;Fondo azionario;Medio;7,75;Attivo;1
+42117;30117;10117;09/09/2026;189,97;Deposito vincolato;Alto;8,45;Attivo;1
+42118;30118;10118;10/09/2026;420,98;Obbligazioni;Basso;1,75;Attivo;1
+42119;30119;10119;11/09/2026;519,23;Fondo bilanciato;Medio;2,45;Attivo;1
+42120;30120;10120;12/09/2026;528,21;Fondo azionario;Alto;3,15;Attivo;1
+42121;30121;10121;13/09/2026;551,78;Deposito vincolato;Basso;3,85;Chiuso;1
+42122;30122;10122;14/09/2026;777,66;Obbligazioni;Medio;4,55;Attivo;1
+42123;30123;10123;15/09/2026;592,98;Fondo bilanciato;Alto;5,25;Attivo;1
+42124;30124;10124;16/09/2026;648,41;Fondo azionario;Basso;5,95;Attivo;1
+42125;30125;10125;17/09/2026;505,82;Deposito vincolato;Medio;6,65;Attivo;1
+42126;30126;10126;18/09/2026;492,01;Obbligazioni;Alto;7,35;Attivo;1
+42127;30127;10127;19/09/2026;214,67;Fondo bilanciato;Basso;8,05;Attivo;1
+42128;30128;10128;20/09/2026;419,25;Fondo azionario;Medio;1,35;Attivo;1
+42129;30129;10129;21/09/2026;228,92;Deposito vincolato;Alto;2,05;Attivo;1
+42130;30130;10130;22/09/2026;251,44;Obbligazioni;Basso;2,75;Attivo;1
+42131;30131;10131;23/09/2026;198,00;Fondo bilanciato;Medio;3,45;Chiuso;1
+42132;30132;10132;24/09/2026;592,65;Fondo azionario;Alto;4,15;Attivo;1
+42133;30133;10133;25/09/2026;446,94;Deposito vincolato;Basso;4,85;Attivo;1
+42134;30134;10134;26/09/2026;527,51;Obbligazioni;Medio;5,55;Attivo;1
+42135;30135;10135;27/09/2026;273,74;Fondo bilanciato;Alto;6,25;Attivo;1
+42136;30136;10136;01/09/2026;284,35;Fondo azionario;Basso;6,95;Attivo;1
+42137;30137;10137;02/09/2026;360,13;Deposito vincolato;Medio;7,65;Attivo;1
+42138;30138;10138;03/09/2026;615,42;Obbligazioni;Alto;8,35;Attivo;1
+42139;30139;10139;04/09/2026;263,63;Fondo bilanciato;Basso;1,65;Attivo;1
+42140;30140;10140;05/09/2026;721,39;Fondo azionario;Medio;2,35;Attivo;1
+42141;30141;10141;06/09/2026;610,14;Deposito vincolato;Alto;3,05;Chiuso;1
+42142;30142;10142;07/09/2026;240,71;Obbligazioni;Basso;3,75;Attivo;1
+42143;30143;10143;08/09/2026;509,60;Fondo bilanciato;Medio;4,45;Attivo;1
+42144;30144;10144;09/09/2026;481,78;Fondo azionario;Alto;5,15;Attivo;1
+42145;30145;10145;10/09/2026;589,77;Deposito vincolato;Basso;5,85;Attivo;1
+42146;30146;10146;11/09/2026;556,91;Obbligazioni;Medio;6,55;Attivo;1
+42147;30147;10147;12/09/2026;293,73;Fondo bilanciato;Alto;7,25;Attivo;1
+42148;30148;10148;13/09/2026;798,41;Fondo azionario;Basso;7,95;Attivo;1
+42149;30149;10149;14/09/2026;273,15;Deposito vincolato;Medio;1,25;Attivo;1
+42150;30150;10150;15/09/2026;774,89;Obbligazioni;Alto;1,95;Attivo;1
+42151;30151;10151;16/09/2026;774,27;Fondo bilanciato;Basso;2,65;Chiuso;1
+42152;30152;10152;17/09/2026;471,99;Fondo azionario;Medio;3,35;Attivo;1
+42153;30153;10153;18/09/2026;623,82;Deposito vincolato;Alto;4,05;Attivo;1
+42154;30154;10154;19/09/2026;453,64;Obbligazioni;Basso;4,75;Attivo;1
+42155;30155;10155;20/09/2026;824,55;Fondo bilanciato;Medio;5,45;Attivo;1
+42156;30156;10156;21/09/2026;379,37;Fondo azionario;Alto;6,15;Attivo;1
+42157;30157;10157;22/09/2026;841,02;Deposito vincolato;Basso;6,85;Attivo;1
+42158;30158;10158;23/09/2026;569,39;Obbligazioni;Medio;7,55;Attivo;1
+42159;30159;10159;24/09/2026;778,16;Fondo bilanciato;Alto;8,25;Attivo;1
+42160;30160;10160;25/09/2026;207,84;Fondo azionario;Basso;1,55;Attivo;1
+42161;30161;10161;26/09/2026;738,92;Deposito vincolato;Medio;2,25;Chiuso;1
+42162;30162;10162;27/09/2026;450,36;Obbligazioni;Alto;2,95;Attivo;1
+42163;30163;10163;01/09/2026;484,98;Fondo bilanciato;Basso;3,65;Attivo;1
+42164;30164;10164;02/09/2026;772,37;Fondo azionario;Medio;4,35;Attivo;1
+42165;30165;10165;03/09/2026;703,43;Deposito vincolato;Alto;5,05;Attivo;1
+42166;30166;10166;04/09/2026;389,47;Obbligazioni;Basso;5,75;Attivo;1
+42167;30167;10167;05/09/2026;359,08;Fondo bilanciato;Medio;6,45;Attivo;1
+42168;30168;10168;06/09/2026;542,02;Fondo azionario;Alto;7,15;Attivo;1
+42169;30169;10169;07/09/2026;720,89;Deposito vincolato;Basso;7,85;Attivo;1
+42170;30170;10170;08/09/2026;539,92;Obbligazioni;Medio;8,55;Attivo;1
+42171;30171;10171;09/09/2026;418,91;Fondo bilanciato;Alto;1,85;Chiuso;1
+42172;30172;10172;10/09/2026;416,06;Fondo azionario;Basso;2,55;Attivo;1
+42173;30173;10173;11/09/2026;330,92;Deposito vincolato;Medio;3,25;Attivo;1
+42174;30174;10174;12/09/2026;283,14;Obbligazioni;Alto;3,95;Attivo;1
+42175;30175;10175;13/09/2026;842,29;Fondo bilanciato;Basso;4,65;Attivo;1
+42176;30176;10176;14/09/2026;552,88;Fondo azionario;Medio;5,35;Attivo;1
+42177;30177;10177;15/09/2026;631,67;Deposito vincolato;Alto;6,05;Attivo;1
+42178;30178;10178;16/09/2026;169,49;Obbligazioni;Basso;6,75;Attivo;1
+42179;30179;10179;17/09/2026;667,52;Fondo bilanciato;Medio;7,45;Attivo;1
+42180;30180;10180;18/09/2026;521,64;Fondo azionario;Alto;8,15;Attivo;1
+42181;30181;10181;19/09/2026;488,76;Deposito vincolato;Basso;1,45;Chiuso;1
+42182;30182;10182;20/09/2026;790,57;Obbligazioni;Medio;2,15;Attivo;1
+42183;30183;10183;21/09/2026;657,73;Fondo bilanciato;Alto;2,85;Attivo;1
+42184;30184;10184;22/09/2026;665,88;Fondo azionario;Basso;3,55;Attivo;1
+42185;30185;10185;23/09/2026;608,10;Deposito vincolato;Medio;4,25;Attivo;1
+42186;30186;10186;24/09/2026;642,19;Obbligazioni;Alto;4,95;Attivo;1
+42187;30187;10187;25/09/2026;500,04;Fondo bilanciato;Basso;5,65;Attivo;1
+42188;30188;10188;26/09/2026;676,13;Fondo azionario;Medio;6,35;Attivo;1
+42189;30189;10189;27/09/2026;183,90;Deposito vincolato;Alto;7,05;Attivo;1
+42190;30190;10190;01/09/2026;724,98;Obbligazioni;Basso;7,75;Attivo;1
+42191;30191;10191;02/09/2026;300,67;Fondo bilanciato;Medio;8,45;Chiuso;1
+42192;30192;10192;03/09/2026;513,03;Fondo azionario;Alto;1,75;Attivo;1
+42193;30193;10193;04/09/2026;845,57;Deposito vincolato;Basso;2,45;Attivo;1
+42194;30194;10194;05/09/2026;719,02;Obbligazioni;Medio;3,15;Attivo;1
+42195;30195;10195;06/09/2026;689,73;Fondo bilanciato;Alto;3,85;Attivo;1
+42196;30196;10196;07/09/2026;431,19;Fondo azionario;Basso;4,55;Attivo;1
+42197;30197;10197;08/09/2026;418,26;Deposito vincolato;Medio;5,25;Attivo;1
+42198;30198;10198;09/09/2026;687,05;Obbligazioni;Alto;5,95;Attivo;1
+42199;30199;10199;10/09/2026;595,25;Fondo bilanciato;Basso;6,65;Attivo;1
+42200;30200;10200;11/09/2026;256,37;Fondo azionario;Medio;7,35;Attivo;1

@@ -151,9 +151,39 @@ class MenuBanca:
         chiave = self.intero('ID dipendente')
         riga = self.controller.dipendente(chiave)
         self.mostra(riga)
+
         modifiche = self.persona(riga)
-        if riga['ruolo'] in ('Specialista', 'Direttore'): modifiche['specializzazione'] = self.enum(Specializzazione, Specializzazione(riga['specializzazione']))
-        if riga['ruolo'] == 'Direttore': modifiche['liv_autorizzazione'] = int(self.testo('Livello autorizzazione', riga['liv_autorizzazione']))
+        modifiche['data_assunzione'] = self.data('Data assunzione', riga['data_assunzione'])
+
+        print('\nFILIALI DISPONIBILI')
+        self.elenco('filiale', self.controller.filiali())
+        modifiche['codice_filiale'] = self.testo('Codice filiale', riga['codice_filiale']).upper()
+
+        ruoli = ('Gestore', 'Specialista', 'Direttore', 'AddettoAllaSicurezza')
+        print('\nRUOLI DISPONIBILI')
+        for numero, ruolo in enumerate(ruoli, 1): print(f'{numero}. {ruolo}')
+        scelta = self.testo('Nuovo ruolo (1-4; INVIO mantiene)')
+        if scelta:
+            if not scelta.isdigit() or not 1 <= int(scelta) <= len(ruoli): raise ValueError('Ruolo non valido')
+            modifiche['ruolo'] = ruoli[int(scelta) - 1]
+        else:
+            modifiche['ruolo'] = riga['ruolo']
+
+        if modifiche['ruolo'] in ('Specialista', 'Direttore'):
+            attuale = Specializzazione(riga['specializzazione']) if riga['specializzazione'] else None
+            modifiche['specializzazione'] = self.enum(Specializzazione, attuale)
+        else:
+            modifiche['specializzazione'] = None
+
+        if modifiche['ruolo'] == 'Direttore':
+            livello = riga['liv_autorizzazione']
+            modifiche['liv_autorizzazione'] = int(self.testo('Livello autorizzazione', livello)) if livello is not None else self.intero('Livello autorizzazione')
+        else:
+            modifiche['liv_autorizzazione'] = None
+
+        if riga['ruolo'] == 'Direttore' and (modifiche['ruolo'] != 'Direttore' or modifiche['codice_filiale'] != riga['codice_filiale']):
+            print('\nATTENZIONE: se dirige una filiale, verra rimossa la precedente assegnazione come direttore.')
+
         self.mostra(self.controller.modifica_dipendente(chiave, modifiche))
 
     def nuovo_atm(self):

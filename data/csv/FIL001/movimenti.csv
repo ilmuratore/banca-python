@@ -1,0 +1,201 @@
+﻿id_operazione;id_conto;tipo;data_operazione;importo;canale;causale;tipo_versamento
+40001;30001;Versamento;01/02/2026;3638,02;ATM;Versamento risparmi;Assegno
+40002;30002;Versamento;02/02/2026;4629,37;Filiale;Accredito disponibilita;Contanti
+40003;30003;Versamento;03/02/2026;4674,65;Filiale;Versamento da sportello;Assegno
+40004;30004;Versamento;04/02/2026;2322,43;ATM;Versamento risparmi;Contanti
+40005;30005;Versamento;05/02/2026;2750,80;Filiale;Accredito disponibilita;Assegno
+40006;30006;Versamento;06/02/2026;2850,94;Filiale;Versamento da sportello;Contanti
+40007;30007;Versamento;07/02/2026;3200,17;ATM;Versamento risparmi;Assegno
+40008;30008;Versamento;08/02/2026;3264,31;Filiale;Accredito disponibilita;Contanti
+40009;30009;Versamento;09/02/2026;4366,71;Filiale;Versamento da sportello;Assegno
+40010;30010;Versamento;10/02/2026;3768,51;ATM;Versamento risparmi;Contanti
+40011;30011;Versamento;11/02/2026;2526,57;Filiale;Accredito disponibilita;Assegno
+40012;30012;Versamento;12/02/2026;4443,65;Filiale;Versamento da sportello;Contanti
+40013;30013;Versamento;13/02/2026;3370,02;ATM;Versamento risparmi;Assegno
+40014;30014;Versamento;14/02/2026;4525,73;Filiale;Accredito disponibilita;Contanti
+40015;30015;Versamento;15/02/2026;3542,95;Filiale;Versamento da sportello;Assegno
+40016;30016;Versamento;16/02/2026;3818,81;ATM;Versamento risparmi;Contanti
+40017;30017;Versamento;17/02/2026;4793,78;Filiale;Accredito disponibilita;Assegno
+40018;30018;Versamento;18/02/2026;2860,04;Filiale;Versamento da sportello;Contanti
+40019;30019;Versamento;19/02/2026;3675,42;ATM;Versamento risparmi;Assegno
+40020;30020;Versamento;20/02/2026;4274,42;Filiale;Accredito disponibilita;Contanti
+40021;30021;Versamento;21/02/2026;3859,42;Filiale;Versamento da sportello;Assegno
+40022;30022;Versamento;22/02/2026;2864,80;ATM;Versamento risparmi;Contanti
+40023;30023;Versamento;23/02/2026;2450,00;Filiale;Accredito disponibilita;Assegno
+40024;30024;Versamento;24/02/2026;4702,17;Filiale;Versamento da sportello;Contanti
+40025;30025;Versamento;25/02/2026;2402,95;ATM;Versamento risparmi;Assegno
+40026;30026;Versamento;01/02/2026;4432,14;Filiale;Accredito disponibilita;Contanti
+40027;30027;Versamento;02/02/2026;4245,07;Filiale;Versamento da sportello;Assegno
+40028;30028;Versamento;03/02/2026;3323,22;ATM;Versamento risparmi;Contanti
+40029;30029;Versamento;04/02/2026;3759,09;Filiale;Accredito disponibilita;Assegno
+40030;30030;Versamento;05/02/2026;4625,35;Filiale;Versamento da sportello;Contanti
+40031;30031;Versamento;06/02/2026;3122,29;ATM;Versamento risparmi;Assegno
+40032;30032;Versamento;07/02/2026;3690,07;Filiale;Accredito disponibilita;Contanti
+40033;30033;Versamento;08/02/2026;3262,28;Filiale;Versamento da sportello;Assegno
+40034;30034;Versamento;09/02/2026;2439,79;ATM;Versamento risparmi;Contanti
+40035;30035;Versamento;10/02/2026;4030,37;Filiale;Accredito disponibilita;Assegno
+40036;30036;Versamento;11/02/2026;2586,64;Filiale;Versamento da sportello;Contanti
+40037;30037;Versamento;12/02/2026;4639,92;ATM;Versamento risparmi;Assegno
+40038;30038;Versamento;13/02/2026;4051,49;Filiale;Accredito disponibilita;Contanti
+40039;30039;Versamento;14/02/2026;4428,41;Filiale;Versamento da sportello;Assegno
+40040;30040;Versamento;15/02/2026;2339,11;ATM;Versamento risparmi;Contanti
+40041;30041;Versamento;16/02/2026;4495,98;Filiale;Accredito disponibilita;Assegno
+40042;30042;Versamento;17/02/2026;4566,89;Filiale;Versamento da sportello;Contanti
+40043;30043;Versamento;18/02/2026;4469,26;ATM;Versamento risparmi;Assegno
+40044;30044;Versamento;19/02/2026;3739,55;Filiale;Accredito disponibilita;Contanti
+40045;30045;Versamento;20/02/2026;2869,81;Filiale;Versamento da sportello;Assegno
+40046;30046;Versamento;21/02/2026;3203,43;ATM;Versamento risparmi;Contanti
+40047;30047;Versamento;22/02/2026;3989,05;Filiale;Accredito disponibilita;Assegno
+40048;30048;Versamento;23/02/2026;2695,94;Filiale;Versamento da sportello;Contanti
+40049;30049;Versamento;24/02/2026;4386,92;ATM;Versamento risparmi;Assegno
+40050;30050;Versamento;25/02/2026;3260,97;Filiale;Accredito disponibilita;Contanti
+40051;30051;Versamento;01/02/2026;4284,06;Filiale;Versamento da sportello;Assegno
+40052;30052;Versamento;02/02/2026;2619,88;ATM;Versamento risparmi;Contanti
+40053;30053;Versamento;03/02/2026;4523,61;Filiale;Accredito disponibilita;Assegno
+40054;30054;Versamento;04/02/2026;4348,09;Filiale;Versamento da sportello;Contanti
+40055;30055;Versamento;05/02/2026;3331,47;ATM;Versamento risparmi;Assegno
+40056;30056;Versamento;06/02/2026;2916,64;Filiale;Accredito disponibilita;Contanti
+40057;30057;Versamento;07/02/2026;3713,20;Filiale;Versamento da sportello;Assegno
+40058;30058;Versamento;08/02/2026;3327,82;ATM;Versamento risparmi;Contanti
+40059;30059;Versamento;09/02/2026;3451,16;Filiale;Accredito disponibilita;Assegno
+40060;30060;Versamento;10/02/2026;2315,46;Filiale;Versamento da sportello;Contanti
+40061;30061;Versamento;11/02/2026;3817,88;ATM;Versamento risparmi;Assegno
+40062;30062;Versamento;12/02/2026;2846,15;Filiale;Accredito disponibilita;Contanti
+40063;30063;Versamento;13/02/2026;3460,75;Filiale;Versamento da sportello;Assegno
+40064;30064;Versamento;14/02/2026;4199,93;ATM;Versamento risparmi;Contanti
+40065;30065;Versamento;15/02/2026;4475,18;Filiale;Accredito disponibilita;Assegno
+40066;30066;Versamento;16/02/2026;3991,19;Filiale;Versamento da sportello;Contanti
+40067;30067;Versamento;17/02/2026;4058,34;ATM;Versamento risparmi;Assegno
+40068;30068;Versamento;18/02/2026;2485,67;Filiale;Accredito disponibilita;Contanti
+40069;30069;Versamento;19/02/2026;4196,50;Filiale;Versamento da sportello;Assegno
+40070;30070;Versamento;20/02/2026;3354,15;ATM;Versamento risparmi;Contanti
+40071;30071;Versamento;21/02/2026;2336,03;Filiale;Accredito disponibilita;Assegno
+40072;30072;Versamento;22/02/2026;2855,46;Filiale;Versamento da sportello;Contanti
+40073;30073;Versamento;23/02/2026;3075,54;ATM;Versamento risparmi;Assegno
+40074;30074;Versamento;24/02/2026;3255,83;Filiale;Accredito disponibilita;Contanti
+40075;30075;Versamento;25/02/2026;4780,99;Filiale;Versamento da sportello;Assegno
+40076;30076;Versamento;01/02/2026;4223,86;ATM;Versamento risparmi;Contanti
+40077;30077;Versamento;02/02/2026;3368,83;Filiale;Accredito disponibilita;Assegno
+40078;30078;Versamento;03/02/2026;4095,15;Filiale;Versamento da sportello;Contanti
+40079;30079;Versamento;04/02/2026;2430,79;ATM;Versamento risparmi;Assegno
+40080;30080;Versamento;05/02/2026;2908,21;Filiale;Accredito disponibilita;Contanti
+40081;30081;Versamento;06/02/2026;4466,84;Filiale;Versamento da sportello;Assegno
+40082;30082;Versamento;07/02/2026;3047,48;ATM;Versamento risparmi;Contanti
+40083;30083;Versamento;08/02/2026;2494,84;Filiale;Accredito disponibilita;Assegno
+40084;30084;Versamento;09/02/2026;3257,64;Filiale;Versamento da sportello;Contanti
+40085;30085;Versamento;10/02/2026;3098,79;ATM;Versamento risparmi;Assegno
+40086;30086;Versamento;11/02/2026;4036,16;Filiale;Accredito disponibilita;Contanti
+40087;30087;Versamento;12/02/2026;4763,94;Filiale;Versamento da sportello;Assegno
+40088;30088;Versamento;13/02/2026;4351,51;ATM;Versamento risparmi;Contanti
+40089;30089;Versamento;14/02/2026;2990,77;Filiale;Accredito disponibilita;Assegno
+40090;30090;Versamento;15/02/2026;2551,85;Filiale;Versamento da sportello;Contanti
+40091;30091;Versamento;16/02/2026;4226,01;ATM;Versamento risparmi;Assegno
+40092;30092;Versamento;17/02/2026;4669,56;Filiale;Accredito disponibilita;Contanti
+40093;30093;Versamento;18/02/2026;4075,03;Filiale;Versamento da sportello;Assegno
+40094;30094;Versamento;19/02/2026;3711,57;ATM;Versamento risparmi;Contanti
+40095;30095;Versamento;20/02/2026;4583,12;Filiale;Accredito disponibilita;Assegno
+40096;30096;Versamento;21/02/2026;2891,68;Filiale;Versamento da sportello;Contanti
+40097;30097;Versamento;22/02/2026;2529,88;ATM;Versamento risparmi;Assegno
+40098;30098;Versamento;23/02/2026;4245,41;Filiale;Accredito disponibilita;Contanti
+40099;30099;Versamento;24/02/2026;3319,17;Filiale;Versamento da sportello;Assegno
+40100;30100;Versamento;25/02/2026;2890,52;ATM;Versamento risparmi;Contanti
+40101;30101;Versamento;01/02/2026;3443,71;Filiale;Accredito disponibilita;Assegno
+40102;30102;Versamento;02/02/2026;2951,89;Filiale;Versamento da sportello;Contanti
+40103;30103;Versamento;03/02/2026;4681,49;ATM;Versamento risparmi;Assegno
+40104;30104;Versamento;04/02/2026;3773,87;Filiale;Accredito disponibilita;Contanti
+40105;30105;Versamento;05/02/2026;2539,25;Filiale;Versamento da sportello;Assegno
+40106;30106;Versamento;06/02/2026;3652,85;ATM;Versamento risparmi;Contanti
+40107;30107;Versamento;07/02/2026;3850,11;Filiale;Accredito disponibilita;Assegno
+40108;30108;Versamento;08/02/2026;3281,11;Filiale;Versamento da sportello;Contanti
+40109;30109;Versamento;09/02/2026;4489,67;ATM;Versamento risparmi;Assegno
+40110;30110;Versamento;10/02/2026;4335,56;Filiale;Accredito disponibilita;Contanti
+40111;30111;Versamento;11/02/2026;2457,18;Filiale;Versamento da sportello;Assegno
+40112;30112;Versamento;12/02/2026;2872,55;ATM;Versamento risparmi;Contanti
+40113;30113;Versamento;13/02/2026;3421,14;Filiale;Accredito disponibilita;Assegno
+40114;30114;Versamento;14/02/2026;3331,06;Filiale;Versamento da sportello;Contanti
+40115;30115;Versamento;15/02/2026;2406,57;ATM;Versamento risparmi;Assegno
+40116;30116;Versamento;16/02/2026;3536,84;Filiale;Accredito disponibilita;Contanti
+40117;30117;Versamento;17/02/2026;2619,44;Filiale;Versamento da sportello;Assegno
+40118;30118;Versamento;18/02/2026;3848,68;ATM;Versamento risparmi;Contanti
+40119;30119;Versamento;19/02/2026;2781,66;Filiale;Accredito disponibilita;Assegno
+40120;30120;Versamento;20/02/2026;2976,31;Filiale;Versamento da sportello;Contanti
+40121;30121;Versamento;21/02/2026;4736,75;ATM;Versamento risparmi;Assegno
+40122;30122;Versamento;22/02/2026;2636,45;Filiale;Accredito disponibilita;Contanti
+40123;30123;Versamento;23/02/2026;3434,30;Filiale;Versamento da sportello;Assegno
+40124;30124;Versamento;24/02/2026;4468,74;ATM;Versamento risparmi;Contanti
+40125;30125;Versamento;25/02/2026;4737,59;Filiale;Accredito disponibilita;Assegno
+40126;30126;Versamento;01/02/2026;2732,36;Filiale;Versamento da sportello;Contanti
+40127;30127;Versamento;02/02/2026;4664,31;ATM;Versamento risparmi;Assegno
+40128;30128;Versamento;03/02/2026;4363,55;Filiale;Accredito disponibilita;Contanti
+40129;30129;Versamento;04/02/2026;4644,97;Filiale;Versamento da sportello;Assegno
+40130;30130;Versamento;05/02/2026;3440,02;ATM;Versamento risparmi;Contanti
+40131;30131;Versamento;06/02/2026;2710,45;Filiale;Accredito disponibilita;Assegno
+40132;30132;Versamento;07/02/2026;3538,15;Filiale;Versamento da sportello;Contanti
+40133;30133;Versamento;08/02/2026;4331,09;ATM;Versamento risparmi;Assegno
+40134;30134;Versamento;09/02/2026;2360,86;Filiale;Accredito disponibilita;Contanti
+40135;30135;Versamento;10/02/2026;2407,61;Filiale;Versamento da sportello;Assegno
+40136;30136;Versamento;11/02/2026;3462,38;ATM;Versamento risparmi;Contanti
+40137;30137;Versamento;12/02/2026;3180,12;Filiale;Accredito disponibilita;Assegno
+40138;30138;Versamento;13/02/2026;3033,15;Filiale;Versamento da sportello;Contanti
+40139;30139;Versamento;14/02/2026;3676,72;ATM;Versamento risparmi;Assegno
+40140;30140;Versamento;15/02/2026;4387,13;Filiale;Accredito disponibilita;Contanti
+40141;30141;Versamento;16/02/2026;4350,41;Filiale;Versamento da sportello;Assegno
+40142;30142;Versamento;17/02/2026;2756,94;ATM;Versamento risparmi;Contanti
+40143;30143;Versamento;18/02/2026;3047,00;Filiale;Accredito disponibilita;Assegno
+40144;30144;Versamento;19/02/2026;2411,91;Filiale;Versamento da sportello;Contanti
+40145;30145;Versamento;20/02/2026;4039,75;ATM;Versamento risparmi;Assegno
+40146;30146;Versamento;21/02/2026;2493,15;Filiale;Accredito disponibilita;Contanti
+40147;30147;Versamento;22/02/2026;2755,77;Filiale;Versamento da sportello;Assegno
+40148;30148;Versamento;23/02/2026;3050,29;ATM;Versamento risparmi;Contanti
+40149;30149;Versamento;24/02/2026;4186,00;Filiale;Accredito disponibilita;Assegno
+40150;30150;Versamento;25/02/2026;2931,96;Filiale;Versamento da sportello;Contanti
+40151;30001;Prelievo;01/05/2026;131,94;Filiale;Prelievo contanti;
+40152;30002;Prelievo;02/05/2026;284,47;ATM;Prelievo contanti;
+40153;30003;Prelievo;03/05/2026;119,96;Filiale;Prelievo contanti;
+40154;30004;Prelievo;04/05/2026;100,82;ATM;Prelievo contanti;
+40155;30005;Prelievo;05/05/2026;277,75;Filiale;Prelievo contanti;
+40156;30006;Prelievo;06/05/2026;104,32;ATM;Prelievo contanti;
+40157;30007;Prelievo;07/05/2026;146,70;Filiale;Prelievo contanti;
+40158;30008;Prelievo;08/05/2026;313,49;ATM;Prelievo contanti;
+40159;30009;Prelievo;09/05/2026;350,93;Filiale;Prelievo contanti;
+40160;30010;Prelievo;10/05/2026;107,11;ATM;Prelievo contanti;
+40161;30011;Prelievo;11/05/2026;270,31;Filiale;Prelievo contanti;
+40162;30012;Prelievo;12/05/2026;303,55;ATM;Prelievo contanti;
+40163;30013;Prelievo;13/05/2026;194,27;Filiale;Prelievo contanti;
+40164;30014;Prelievo;14/05/2026;166,42;ATM;Prelievo contanti;
+40165;30015;Prelievo;15/05/2026;297,80;Filiale;Prelievo contanti;
+40166;30016;Prelievo;16/05/2026;222,80;ATM;Prelievo contanti;
+40167;30017;Prelievo;17/05/2026;253,71;Filiale;Prelievo contanti;
+40168;30018;Prelievo;18/05/2026;249,59;ATM;Prelievo contanti;
+40169;30019;Prelievo;19/05/2026;153,78;Filiale;Prelievo contanti;
+40170;30020;Prelievo;20/05/2026;149,41;ATM;Prelievo contanti;
+40171;30021;Prelievo;21/05/2026;340,10;Filiale;Prelievo contanti;
+40172;30022;Prelievo;22/05/2026;117,15;ATM;Prelievo contanti;
+40173;30023;Prelievo;23/05/2026;155,61;Filiale;Prelievo contanti;
+40174;30024;Prelievo;24/05/2026;162,81;ATM;Prelievo contanti;
+40175;30025;Prelievo;25/05/2026;285,71;Filiale;Prelievo contanti;
+40176;30026;Prelievo;01/05/2026;229,37;ATM;Prelievo contanti;
+40177;30027;Prelievo;02/05/2026;128,86;Filiale;Prelievo contanti;
+40178;30028;Prelievo;03/05/2026;266,98;ATM;Prelievo contanti;
+40179;30029;Prelievo;04/05/2026;241,23;Filiale;Prelievo contanti;
+40180;30030;Prelievo;05/05/2026;312,57;ATM;Prelievo contanti;
+40181;30031;Prelievo;06/05/2026;334,79;Filiale;Prelievo contanti;
+40182;30032;Prelievo;07/05/2026;100,81;ATM;Prelievo contanti;
+40183;30033;Prelievo;08/05/2026;350,45;Filiale;Prelievo contanti;
+40184;30034;Prelievo;09/05/2026;143,66;ATM;Prelievo contanti;
+40185;30035;Prelievo;10/05/2026;307,41;Filiale;Prelievo contanti;
+40186;30036;Prelievo;11/05/2026;338,07;ATM;Prelievo contanti;
+40187;30037;Prelievo;12/05/2026;149,48;Filiale;Prelievo contanti;
+40188;30038;Prelievo;13/05/2026;247,15;ATM;Prelievo contanti;
+40189;30039;Prelievo;14/05/2026;319,39;Filiale;Prelievo contanti;
+40190;30040;Prelievo;15/05/2026;287,10;ATM;Prelievo contanti;
+40191;30041;Prelievo;16/05/2026;264,71;Filiale;Prelievo contanti;
+40192;30042;Prelievo;17/05/2026;328,11;ATM;Prelievo contanti;
+40193;30043;Prelievo;18/05/2026;100,51;Filiale;Prelievo contanti;
+40194;30044;Prelievo;19/05/2026;184,48;ATM;Prelievo contanti;
+40195;30045;Prelievo;20/05/2026;323,22;Filiale;Prelievo contanti;
+40196;30046;Prelievo;21/05/2026;327,85;ATM;Prelievo contanti;
+40197;30047;Prelievo;22/05/2026;114,23;Filiale;Prelievo contanti;
+40198;30048;Prelievo;23/05/2026;166,47;ATM;Prelievo contanti;
+40199;30049;Prelievo;24/05/2026;281,11;Filiale;Prelievo contanti;
+40200;30050;Prelievo;25/05/2026;239,92;ATM;Prelievo contanti;
