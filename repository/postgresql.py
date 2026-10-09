@@ -155,7 +155,7 @@ class DatabasePostgreSQL:
     def nuovo_dipendente(self, codice, dipendente, ruolo):
         def azione(cur):
             dipendente.id_dipendente = self._prossimo(cur, 'dipendenti')
-            cur.execute('insert into dipendente (id_dipendente,codice_filiale,ruolo,nome,cognome,codice_fiscale,recapito,data_assunzione,specializzazione,liv_autorizzazione) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', (dipendente.id_dipendente,codice,ruolo,dipendente.nome,dipendente.cognome,dipendente.codice_fiscale,dipendente.recapito,dipendente.data_assunzione,dipendente.specializzazione.value if ruolo == 'Specialista' else None,None))
+            cur.execute('insert into dipendente (id_dipendente,codice_filiale,ruolo,nome,cognome,codice_fiscale,recapito,data_assunzione,specializzazione,liv_autorizzazione) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)', (dipendente.id_dipendente,codice,ruolo,dipendente.nome,dipendente.cognome,dipendente.codice_fiscale,dipendente.recapito,dipendente.data_assunzione,dipendente.specializzazione.value if ruolo == 'Specialista' else None,None))
         self._scrittura(azione)
         return self.dettaglio('dipendenti', dipendente.id_dipendente, codice)
 
