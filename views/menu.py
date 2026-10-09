@@ -13,10 +13,7 @@ class MenuBanca:
 
     def pulisci(self):
         if os.getenv('BANCA_NO_CLEAR') == '1': return
-        if os.name == 'nt' and not os.getenv('MSYSTEM'):
-            os.system('cls')
-        else:
-            print('\033[2J\033[H', end='', flush=True)
+        print('\033[3J\033[2J\033[H', end='', flush=True)
 
     def schermata(self, titolo):
         self.pulisci()
@@ -30,9 +27,7 @@ class MenuBanca:
         self.schermata(titolo)
         for n, voce in enumerate(voci, 1): print(f'{n}. {voce}')
         print('0. Indietro')
-        scelta = input('\nScelta: ').strip()
-        if scelta != '0' and scelta.isdigit() and 1 <= int(scelta) <= len(voci): self.schermata(voci[int(scelta) - 1])
-        return scelta
+        return input('\nScelta: ').strip()
 
     def ciclo(self, titolo, azioni):
         while True:
@@ -40,6 +35,7 @@ class MenuBanca:
             if scelta == '0': return
             try:
                 if scelta not in azioni: raise ValueError('Scelta non valida')
+                self.schermata(azioni[scelta][0])
                 azioni[scelta][1]()
             except Exception as errore:
                 print(f'\nERRORE ({type(errore).__name__}): {errore}')
@@ -196,7 +192,21 @@ class MenuBanca:
         print(f'\nSALDO DB AGGIORNATO: {saldo:.2f} euro')
 
     def nuovo_prelievo(self):
-        atm = self.testo('Codice ATM')
+        atm_disponibili = self.controller.elenco('atm')
+        if not atm_disponibili:
+            print('Nessun ATM registrato nella filiale selezionata')
+            return
+        print('\nATM DELLA FILIALE')
+        print(f'{"CODICE ATM":<20} {"STATO":<16} DATA INSTALLAZIONE')
+        print('-' * 60)
+        for riga_atm in atm_disponibili:
+            print(f'{riga_atm["codice_atm"]:<20} {riga_atm["stato"]:<16} {self.formato(riga_atm["data_installazione"])}')
+        attivi = {riga_atm['codice_atm'].upper() for riga_atm in atm_disponibili if riga_atm['stato'] == 'Attivo'}
+        if not attivi:
+            print('Nessun ATM attivo disponibile per il prelievo')
+            return
+        atm = self.testo('Codice ATM').upper()
+        if atm not in attivi: raise ValueError('Selezionare il codice di un ATM attivo presente nella filiale')
         conto = self.intero('ID conto')
         riga, saldo = self.controller.prelievo_atm(atm, conto, self.importo('Importo'))
         self.mostra(riga)
