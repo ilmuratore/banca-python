@@ -312,6 +312,20 @@ class MenuBanca:
     def menu_csv(self):
         self.ciclo('CSV (solo manuale)', {'1': ('Esporta CSV entita', self.esporta_csv), '2': ('Importa CSV entita', self.importa_csv), '3': ('Esporta tutti i CSV', self.esporta_tutto), '4': ('Mostra tracciati CSV', lambda: [print(f'{entita}: {";".join(ServizioCSV.COLONNE[entita])}') for entita in ServizioCSV.ENTITA])})
 
+    def mostra_tabella_pandas(self, entita):
+        df = self.controller.tabella_pandas(entita)
+        print(f"\nRighe: {len(df)} | Colonne: {len(df.columns)}")
+        print(df.head(10).to_string(index=False))
+        print("\nNomi Colonne:", df.columns.tolist())
+        print("Tipi:", df.dtypes.astype(str).to_dict())
+
+    def menu_pandas(self):
+        self.ciclo("Analisi con Pandas" , {
+            '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
+            '2' : ("Conti: prime righe" , lambda: self.mostra_tabella_pandas('conti')),
+            '3' : ("Movimenti: prime righe", lambda: self.mostra_tabella_pandas('movimenti'))
+            })
+    
     def avvia(self):
         while True:
             self.schermata('BANCA - POSTGRESQL')
@@ -322,10 +336,10 @@ class MenuBanca:
                 print(f'Filiale: {filiale["nome"]} | Clienti DB: {filiale["totale_clienti"]} | Dipendenti DB: {filiale["totale_dipendenti"]} | ATM DB: {filiale["totale_atm"]}')
             else:
                 print(f'Filiali presenti nel DB: {len(self.controller.filiali())} (selezionarne una per operare)')
-            print('\n1. Filiali\n2. Clienti\n3. Dipendenti e ATM\n4. Conti correnti\n5. Operazioni\n6. Finanziamenti e investimenti\n7. Ricerche e report\n8. Import / Export CSV\n0. Esci')
+            print('\n1. Filiali\n2. Clienti\n3. Dipendenti e ATM\n4. Conti correnti\n5. Operazioni\n6. Finanziamenti e investimenti\n7. Ricerche e report\n8. Import / Export CSV\n9. Pandas\n0. Esci')
             scelta = input('\nScelta: ').strip()
             if scelta == '0': return
-            sezioni = {'1': self.menu_filiale, '2': self.menu_clienti, '3': self.menu_personale, '4': self.menu_conti, '5': self.menu_operazioni, '6': self.menu_finanziamenti, '7': self.menu_report, '8': self.menu_csv}
+            sezioni = {'1': self.menu_filiale, '2': self.menu_clienti, '3': self.menu_personale, '4': self.menu_conti, '5': self.menu_operazioni, '6': self.menu_finanziamenti, '7': self.menu_report, '8': self.menu_csv, '9' : self.menu_pandas}
             try:
                 if scelta not in sezioni: raise ValueError('Scelta non valida')
                 sezioni[scelta]()

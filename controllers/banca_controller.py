@@ -3,13 +3,14 @@ from datetime import date
 from models import *
 from repository.postgresql import DatabasePostgreSQL
 from services.csv_service import ServizioCSV
-
+from services.analisi_pandas import AnalisiPandas
 
 class BancaController:
 
     def __init__(self, database: DatabasePostgreSQL, csv: ServizioCSV):
         self.database = database
         self.csv = csv
+        self.analisi = AnalisiPandas(database)
         filiali = database.filiali()
         self.codice_filiale = filiali[0]['codice_filiale'] if len(filiali) == 1 else None
 
@@ -34,6 +35,9 @@ class BancaController:
 
     def elenco(self, entita):
         return self.database.lista(entita, self._codice())
+
+    def tabella_pandas(self, entita):
+        return self.analisi.tabella(entita, self._codice())
 
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())
