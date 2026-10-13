@@ -52,6 +52,9 @@ class BancaController:
 
     def pandas_clienti_citta(self):
         return self.analisi.clienti_citta_uniformata(self._codice())
+
+    def pandas_clienti_anno_registrazione(self):
+        return self.analisi.clienti_anno_registrazione(self._codice())
     
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())

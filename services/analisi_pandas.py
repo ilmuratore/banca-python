@@ -34,4 +34,10 @@ class AnalisiPandas:
         df = self.tabella('clienti' , codice_filiale)
         df['citta'] = df['citta'].astype('string').str.strip().str.title()
         return df[['numero_cliente' , 'nome' , 'cognome' , 'citta']]
+
+    def clienti_anno_registrazione(self, codice_filiale):
+        df = self.tabella('clienti', codice_filiale)
+        df['data_registrazione'] = pd.to_datetime(df['data_registrazione'], errors='coerce')
+        df['data_registrazione'] = df['data_registrazione'].dt.year
+        return df[['numero_cliente' , 'data_registrazione']]
     
