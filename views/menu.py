@@ -319,11 +319,20 @@ class MenuBanca:
         print("\nNomi Colonne:", df.columns.tolist())
         print("Tipi:", df.dtypes.astype(str).to_dict())
 
+    def pandas_filtro_segmento(self):
+        print('Segmenti disponibili: Standard, Premium, Business')
+        segmento = self.testo('Segmento')
+        df = self.controller.pandas_clienti_segmento(segmento)
+        print(df.to_string(index=False))
+        print(f"Clienti trovati: {len(df)}")
+
+
     def menu_pandas(self):
         self.ciclo("Analisi con Pandas" , {
             '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
             '2' : ("Conti: prime righe" , lambda: self.mostra_tabella_pandas('conti')),
-            '3' : ("Movimenti: prime righe", lambda: self.mostra_tabella_pandas('movimenti'))
+            '3' : ("Movimenti: prime righe", lambda: self.mostra_tabella_pandas('movimenti')),
+            '4' : ("Filtra clienti per segmento", self.pandas_filtro_segmento)
             })
     
     def avvia(self):

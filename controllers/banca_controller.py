@@ -39,6 +39,10 @@ class BancaController:
     def tabella_pandas(self, entita):
         return self.analisi.tabella(entita, self._codice())
 
+    def pandas_clienti_segmento(self, segmento):
+        if segmento not in ('Standard' , 'Premium' , 'Business') : raise ValueError("Segmento non valido")
+        return self.analisi.clienti_per_segmento(self._codice(), segmento)
+
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())
         if risultato is None: raise OperazioneNonConsentitaError(f'{entita}: record {identificativo} non trovato')
