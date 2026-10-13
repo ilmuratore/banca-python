@@ -332,13 +332,18 @@ class MenuBanca:
         print(df.to_string(index=False))
         print(f"Conti trovati: {len(df)}")
 
+    def pandas_qualita_clienti(self):
+        dati = self.controller.pandas_qualita_clienti()
+        for nome, valore in dati.items(): print(f'{nome}: {valore}')
+        
     def menu_pandas(self):
         self.ciclo("Analisi con Pandas" , {
             '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
             '2' : ("Conti: prime righe" , lambda: self.mostra_tabella_pandas('conti')),
             '3' : ("Movimenti: prime righe", lambda: self.mostra_tabella_pandas('movimenti')),
             '4' : ("Filtra clienti per segmento", self.pandas_filtro_segmento),
-            '5' : ("Conti con saldo minimo", self.pandas_filtro_saldo)
+            '5' : ("Conti con saldo minimo", self.pandas_filtro_saldo),
+            '6' : ("Qualita' anagrafica clienti", self.pandas_qualita_clienti)
             })
     
     def avvia(self):

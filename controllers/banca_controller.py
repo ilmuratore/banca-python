@@ -46,7 +46,10 @@ class BancaController:
     def pandas_conti_soglia(self, minimo):
         if minimo < 0 : raise ValueError("La soglia deve essere positiva o zero")
         return self.analisi.conti_sopra_soglia(self._codice(), minimo)
-    
+
+    def pandas_qualita_clienti(self):
+        return self.analisi.qualita_clienti(self._codice())
+
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())
         if risultato is None: raise OperazioneNonConsentitaError(f'{entita}: record {identificativo} non trovato')

@@ -22,3 +22,11 @@ class AnalisiPandas:
         df['saldo'] = pd.to_numeric(df['saldo'], errors='coerce')
         risultato = df.loc[df['saldo'] >= minimo, ['id_conto' , 'numero_cliente', 'tipo_conto' , 'stato' , 'saldo']].copy()
         return risultato.sort_values('saldo' , ascending=False)
+
+    def qualita_clienti(self, codice_filiale):
+        df = self.tabella('clienti' , codice_filiale)
+        email = df['email'].astype('string').str.strip()
+        mancanti_email = email.isna() | email.eq('')
+        duplicati_id = df.duplicated(subset=['numero_cliente']).sum()
+        return {'totale clienti' : len(df), 'email_mancanti_o_vuote' : int(mancanti_email.sum()), 'id_duplicati' : int(duplicati_id)}
+
