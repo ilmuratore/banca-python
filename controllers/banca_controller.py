@@ -43,6 +43,10 @@ class BancaController:
         if segmento not in ('Standard' , 'Premium' , 'Business') : raise ValueError("Segmento non valido")
         return self.analisi.clienti_per_segmento(self._codice(), segmento)
 
+    def pandas_conti_soglia(self, minimo):
+        if minimo < 0 : raise ValueError("La soglia deve essere positiva o zero")
+        return self.analisi.conti_sopra_soglia(self._codice(), minimo)
+    
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())
         if risultato is None: raise OperazioneNonConsentitaError(f'{entita}: record {identificativo} non trovato')

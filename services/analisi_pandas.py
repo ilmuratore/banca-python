@@ -16,3 +16,9 @@ class AnalisiPandas:
         df = self.tabella('clienti', codice_filiale)
         colonne = ['numero_cliente', 'nome' , 'cognome', 'citta', 'segmento']
         return df.loc[df['segmento'] == segmento, colonne].copy()
+
+    def conti_sopra_soglia(self, codice_filiale, minimo):
+        df = self.tabella('conti', codice_filiale)
+        df['saldo'] = pd.to_numeric(df['saldo'], errors='coerce')
+        risultato = df.loc[df['saldo'] >= minimo, ['id_conto' , 'numero_cliente', 'tipo_conto' , 'stato' , 'saldo']].copy()
+        return risultato.sort_values('saldo' , ascending=False)

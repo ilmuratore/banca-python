@@ -326,13 +326,19 @@ class MenuBanca:
         print(df.to_string(index=False))
         print(f"Clienti trovati: {len(df)}")
 
+    def pandas_filtro_saldo(self):
+        minimo = self.importo('Saldo minimo')
+        df = self.controller.pandas_conti_soglia(minimo)
+        print(df.to_string(index=False))
+        print(f"Conti trovati: {len(df)}")
 
     def menu_pandas(self):
         self.ciclo("Analisi con Pandas" , {
             '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
             '2' : ("Conti: prime righe" , lambda: self.mostra_tabella_pandas('conti')),
             '3' : ("Movimenti: prime righe", lambda: self.mostra_tabella_pandas('movimenti')),
-            '4' : ("Filtra clienti per segmento", self.pandas_filtro_segmento)
+            '4' : ("Filtra clienti per segmento", self.pandas_filtro_segmento),
+            '5' : ("Conti con saldo minimo", self.pandas_filtro_saldo)
             })
     
     def avvia(self):
