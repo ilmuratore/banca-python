@@ -335,7 +335,10 @@ class MenuBanca:
     def pandas_qualita_clienti(self):
         dati = self.controller.pandas_qualita_clienti()
         for nome, valore in dati.items(): print(f'{nome}: {valore}')
-        
+
+    def pandas_clienti_citta(self):
+        print(self.controller.pandas_clienti_citta().head(20).to_string(index=False))
+
     def menu_pandas(self):
         self.ciclo("Analisi con Pandas" , {
             '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
@@ -343,7 +346,8 @@ class MenuBanca:
             '3' : ("Movimenti: prime righe", lambda: self.mostra_tabella_pandas('movimenti')),
             '4' : ("Filtra clienti per segmento", self.pandas_filtro_segmento),
             '5' : ("Conti con saldo minimo", self.pandas_filtro_saldo),
-            '6' : ("Qualita' anagrafica clienti", self.pandas_qualita_clienti)
+            '6' : ("Qualita' anagrafica clienti", self.pandas_qualita_clienti),
+            '7' : ("Citta uniformate (solo analisi)" , self.pandas_clienti_citta)
             })
     
     def avvia(self):

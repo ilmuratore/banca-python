@@ -50,6 +50,9 @@ class BancaController:
     def pandas_qualita_clienti(self):
         return self.analisi.qualita_clienti(self._codice())
 
+    def pandas_clienti_citta(self):
+        return self.analisi.clienti_citta_uniformata(self._codice())
+    
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())
         if risultato is None: raise OperazioneNonConsentitaError(f'{entita}: record {identificativo} non trovato')

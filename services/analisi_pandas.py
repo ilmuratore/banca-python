@@ -30,3 +30,8 @@ class AnalisiPandas:
         duplicati_id = df.duplicated(subset=['numero_cliente']).sum()
         return {'totale clienti' : len(df), 'email_mancanti_o_vuote' : int(mancanti_email.sum()), 'id_duplicati' : int(duplicati_id)}
 
+    def clienti_citta_uniformata(self, codice_filiale):
+        df = self.tabella('clienti' , codice_filiale)
+        df['citta'] = df['citta'].astype('string').str.strip().str.title()
+        return df[['numero_cliente' , 'nome' , 'cognome' , 'citta']]
+    
