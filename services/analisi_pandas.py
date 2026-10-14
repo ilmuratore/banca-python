@@ -47,4 +47,14 @@ class AnalisiPandas:
         risultato = df.groupby('segmento' , dropna=False).size().reset_index(name='numero_clienti')
         return risultato.sort_values('numero_clienti', ascending=False)
 
-    
+    def saldo_per_cliente(self, codice_filiale):
+        df = self.tabella('conti' , codice_filiale)
+        if df.empty : return pd.DataFrame(columns=['numero_cliente' , 'numero_conti' , 'saldo_totale' , 'saldo_medio'])
+        df['saldo'] = pd.to_numeric(df['saldo'] , errors='coerce')
+        return df.groupby('numero_cliente', as_index=False).agg(
+            numero_conti=('id_conto' , 'count'),
+            saldo_totale=('saldo' , 'sum'),
+            saldo_medio=('saldo' , 'mean')
+        )
+
+

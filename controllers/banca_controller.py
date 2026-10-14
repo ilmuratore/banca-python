@@ -58,6 +58,9 @@ class BancaController:
 
     def pandas_conteggio_segmenti(self):
         return self.analisi.conteggio_segmenti(self._codice())
+
+    def pandas_saldi_cliente(self):
+        return self.analisi.saldo_per_cliente(self._codice())
     
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())
