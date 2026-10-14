@@ -1,4 +1,6 @@
 from datetime import date
+from pathlib import Path
+
 
 from models import *
 from repository.postgresql import DatabasePostgreSQL
@@ -67,6 +69,10 @@ class BancaController:
 
     def pandas_clienti_conti(self):
         return self.analisi.clienti_e_conti(self._codice())
+
+    def pandas_genera_grafici(self):
+        cartella = Path(__file__).resolve().parent.parent / 'report_pandas'
+        return self.analisi.genera_grafici(self._codice(), cartella)
     
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())

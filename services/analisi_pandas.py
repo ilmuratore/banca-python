@@ -1,4 +1,6 @@
+from pathlib import Path
 import pandas as pd
+import matplotlib.pyplot as plt
 
 from repository.postgresql import DatabasePostgreSQL
 
@@ -80,6 +82,78 @@ class AnalisiPandas:
         uniti['numero_conti'] = uniti['numero_conti'].fillna(0).astype(int)
         uniti['saldo_totale'] = uniti['saldo_totale'].fillna(0.0).astype(float)
         uniti['saldo_medio'] = uniti['saldo_medio'].fillna(0.0).astype(float)
-        return uniti.sort_values('numero_cliente')
+        return uniti.sort_values('saldo_totale', ascending=False)
 
-    
+    def movimenti_per_mese(self, codice_filiale):
+        df = self.tabella('movimenti', codice_filiale)
+        colonne = ['mese', 'canale' , 'tipo' , 'numero_operazioni' , 'volume_euro']
+        if df.empty : return pd.DataFrame(columns=colonne)
+        df['data_operazione'] = pd.to_datetime(df['data_operazione'], errors='coerce')
+        df['importo'] = pd.to_numeric(df['importo'], errors='coerce')
+        df = df.dropna(subset=['data_operazione' , 'importo']).copy()
+        if df.empty : return pd.DataFrame(columns=colonne)
+        df['mese'] = df['data_operazione'].dt.strftime('%y-%m')
+        return df.groupby(['mese' , 'canale' , 'tipo'], as_index=False).agg(
+            numero_operazioni = ('id_operazione', 'count'),
+            volume_euro=('importo' , 'sum')
+        ).sort_values(['mese' , 'canale' , 'tipo'])
+
+    def genera_grafici(self, codice_filiale, cartella_base):
+        destinazione = Path(cartella_base / codice_filiale / 'grafici')
+        destinazione.mkdir(parents=True, exist_ok=True)
+        percorsi = []
+
+        clienti = self.tabella('clienti' , codice_filiale)
+        if not clienti.empty:
+            segmenti = clienti['segmento'].value_counts().sort_index()
+            fig , ax = plt.subplots(figsize=(7,4))
+            segmenti.plot(kind='bar', ax=ax)
+            ax.set_title('Clienti per segmento')
+            ax.set_xlabel('Segmento')
+            ax.set_ylabel('Numero clienti')
+            fig.tight_layout()
+            percorso = destinazione / 'clienti_per_segmento.png'
+            fig.savefig(percorso, dpi=150)
+            plt.close(fig)
+            percorsi.append(percorso)
+
+
+            fig , ax = plt.subplots(figsize=(7,4))
+            segmenti.plot(kind='pie', ax=ax, autopct='%1.1f%%')
+            ax.set_title('Distribuzione clienti per segmento')
+            ax.set_ylabel('')
+            fig.tight_layout()
+            percorso = destinazione / 'distribuzione_segmenti.png'
+            fig.savefig(percorso, dpi=150)
+            plt.close(fig)
+            percorsi.append(percorso)
+
+        movimenti = self.movimenti_per_mese(codice_filiale)
+        if not movimenti.empty:
+                mensile = movimenti.groupby('mese')['volume_euro'].sum().sort_index()
+                fig , ax = plt.subplots(figsize=(7,4))
+                mensile.plot(kind='line', marker='o', ax=ax)
+                ax.set_title('Volume mensile delle operazioni')
+                ax.set_xlabel('Mese')
+                ax.set_ylabel('Volume operazioni (euro)')
+                fig.tight_layout()
+                percorso = destinazione / 'volume_movimenti_mensile.png'
+                fig.savefig(percorso, dpi=150)
+                plt.close(fig)
+                percorsi.append(percorso)
+
+        conti = self.tabella('conti', codice_filiale)
+        if not conti.empty:
+            saldi = pd.to_numeric(conti['saldo'], errors='coerce').dropna()
+            fig , ax = plt.subplots(figsize=(7,4))
+            saldi.plot(kind='hist', bins=8, edgecolor='black', ax=ax)
+            ax.set_title('Distribuzione dei saldi dei conti')
+            ax.set_xlabel('Saldo (euro)')
+            ax.set_ylabel('Numero conti')
+            fig.tight_layout()
+            percorso = destinazione / 'distribuzione_saldi.png'
+            fig.savefig(percorso, dpi=150)
+            plt.close(fig)
+            percorsi.append(percorso)
+
+        return percorsi

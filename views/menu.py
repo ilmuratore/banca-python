@@ -365,6 +365,14 @@ class MenuBanca:
         print(df.head(30).to_string(index=False))
         print(f"Clienti: {len(df)}")
 
+    def pandas_genera_grafici(self):
+        percorsi = self.controller.pandas_genera_grafici()
+        if not percorsi : 
+            print("Nessun grafico creato: non sono disponibili dati validi")
+            return
+        print(f"Grafici creati: {len(percorsi)}")
+        for percorso in percorsi : print(percorso)
+    
     def menu_pandas(self):
         self.ciclo("Analisi con Pandas" , {
             '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
@@ -378,7 +386,8 @@ class MenuBanca:
             '9' : ("Conteggio clienti per segmento" , self.pandas_segmenti_report),
             '10': ("Saldi aggregati per cliente", self.pandas_saldi_report),
             '11': ("Movimenti per canale e tipo", self.pandas_incrocio_movimenti),
-            '12': ("Clienti con numero conti e saldo", self.pandas_clienti_conti)
+            '12': ("Clienti con numero conti e saldo", self.pandas_clienti_conti),
+            '13': ("Genera grafici Pandas (PNG)" , self.pandas_genera_grafici)
             })
     
     def avvia(self):
