@@ -40,4 +40,11 @@ class AnalisiPandas:
         df['data_registrazione'] = pd.to_datetime(df['data_registrazione'], errors='coerce')
         df['data_registrazione'] = df['data_registrazione'].dt.year
         return df[['numero_cliente' , 'data_registrazione']]
+
+    def conteggio_segmenti(self, codice_filiale):
+        df = self.tabella('clienti' , codice_filiale)
+        if df.empty : return pd.DataFrame(columns=['segmento' , 'numero_clienti'])
+        risultato = df.groupby('segmento' , dropna=False).size().reset_index(name='numero_clienti')
+        return risultato.sort_values('numero_clienti', ascending=False)
+
     

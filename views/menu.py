@@ -342,6 +342,11 @@ class MenuBanca:
     def pandas_clienti_anni_registrazione(self):
         print(self.controller.pandas_clienti_anno_registrazione().head(20).to_string(index=False))
 
+    def pandas_segmenti_report(self):
+        df = self.controller.pandas_conteggio_segmenti()
+        print(df.to_string(index=False))
+        print(f"Totale: {int(df['numero_clienti'].sum() if not df.empty else 0)}")
+
     def menu_pandas(self):
         self.ciclo("Analisi con Pandas" , {
             '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
@@ -351,7 +356,8 @@ class MenuBanca:
             '5' : ("Conti con saldo minimo", self.pandas_filtro_saldo),
             '6' : ("Qualita' anagrafica clienti", self.pandas_qualita_clienti),
             '7' : ("Citta uniformate (solo analisi)" , self.pandas_clienti_citta),
-            '8' : ("Anno registrazione clienti" , self.pandas_clienti_anni_registrazione)
+            '8' : ("Anno registrazione clienti" , self.pandas_clienti_anni_registrazione),
+            '9' : ("Conteggio clienti per segmento" , self.pandas_segmenti_report)
             })
     
     def avvia(self):
