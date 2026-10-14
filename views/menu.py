@@ -352,6 +352,14 @@ class MenuBanca:
         print(df.head(20).to_string(index=False))
         print(f"Clienti con almeno un conto: {len(df)}")
 
+    # #crosstab
+    # def pandas_incrocio_movimenti(self):
+    #     print(self.controller.pandas_incrocio_movimenti())
+
+    #pivot table
+    def pandas_incrocio_movimenti(self):
+        print(self.controller.pandas_incrocio_movimenti().to_string())
+
     def menu_pandas(self):
         self.ciclo("Analisi con Pandas" , {
             '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
@@ -363,7 +371,8 @@ class MenuBanca:
             '7' : ("Citta uniformate (solo analisi)" , self.pandas_clienti_citta),
             '8' : ("Anno registrazione clienti" , self.pandas_clienti_anni_registrazione),
             '9' : ("Conteggio clienti per segmento" , self.pandas_segmenti_report),
-            '10': ("Saldi aggregati per cliente", self.pandas_saldi_report)
+            '10': ("Saldi aggregati per cliente", self.pandas_saldi_report),
+            '11': ("Movimenti per canale e tipo", self.pandas_incrocio_movimenti)
             })
     
     def avvia(self):
