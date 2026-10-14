@@ -64,6 +64,9 @@ class BancaController:
 
     def pandas_incrocio_movimenti(self):
         return self.analisi.incrocio_movimenti(self._codice())
+
+    def pandas_clienti_conti(self):
+        return self.analisi.clienti_e_conti(self._codice())
     
     def dettaglio(self, entita, identificativo):
         risultato = self.database.dettaglio(entita, identificativo, self._codice())

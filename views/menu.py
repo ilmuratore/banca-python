@@ -360,6 +360,11 @@ class MenuBanca:
     def pandas_incrocio_movimenti(self):
         print(self.controller.pandas_incrocio_movimenti().to_string())
 
+    def pandas_clienti_conti(self):
+        df = self.controller.pandas_clienti_conti()
+        print(df.head(30).to_string(index=False))
+        print(f"Clienti: {len(df)}")
+
     def menu_pandas(self):
         self.ciclo("Analisi con Pandas" , {
             '1' : ("Clienti: prime righe" , lambda: self.mostra_tabella_pandas('clienti')),
@@ -372,7 +377,8 @@ class MenuBanca:
             '8' : ("Anno registrazione clienti" , self.pandas_clienti_anni_registrazione),
             '9' : ("Conteggio clienti per segmento" , self.pandas_segmenti_report),
             '10': ("Saldi aggregati per cliente", self.pandas_saldi_report),
-            '11': ("Movimenti per canale e tipo", self.pandas_incrocio_movimenti)
+            '11': ("Movimenti per canale e tipo", self.pandas_incrocio_movimenti),
+            '12': ("Clienti con numero conti e saldo", self.pandas_clienti_conti)
             })
     
     def avvia(self):

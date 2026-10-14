@@ -64,8 +64,22 @@ class AnalisiPandas:
     #     return pd.crosstab(df['canale'], df['tipo'])
 
     #pivot_table
-    def incrocio_movimenti(self, codidce_filiale):
-        movimenti = self.tabella('movimenti', codidce_filiale)
+    def incrocio_movimenti(self, codice_filiale):
+        movimenti = self.tabella('movimenti', codice_filiale)
         movimenti['importo'] = pd.to_numeric(movimenti['importo'], errors='coerce')
         riepilogo = movimenti.pivot_table(index='canale' , columns='tipo', values='importo', aggfunc='sum', fill_value=0, dropna=True)
         return riepilogo
+
+    def clienti_e_conti(self, codice_filiale):
+        clienti = self.tabella('clienti', codice_filiale)
+        saldi = self.saldo_per_cliente(codice_filiale)
+        anagrafica = clienti[[
+            'numero_cliente', 'nome' , 'cognome', 'segmento'
+        ]].copy()
+        uniti = anagrafica.merge(saldi, on='numero_cliente' , how='left', validate='one_to_one')
+        uniti['numero_conti'] = uniti['numero_conti'].fillna(0).astype(int)
+        uniti['saldo_totale'] = uniti['saldo_totale'].fillna(0.0).astype(float)
+        uniti['saldo_medio'] = uniti['saldo_medio'].fillna(0.0).astype(float)
+        return uniti.sort_values('numero_cliente')
+
+    
