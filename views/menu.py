@@ -352,11 +352,6 @@ class MenuBanca:
         print(df.head(20).to_string(index=False))
         print(f"Clienti con almeno un conto: {len(df)}")
 
-    # #crosstab
-    # def pandas_incrocio_movimenti(self):
-    #     print(self.controller.pandas_incrocio_movimenti())
-
-    #pivot table
     def pandas_incrocio_movimenti(self):
         print(self.controller.pandas_incrocio_movimenti().to_string())
 

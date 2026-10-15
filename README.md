@@ -1,105 +1,187 @@
-# Banca — applicazione terminale con PostgreSQL (DB-first)
+<div align="center">
 
-## Principio di funzionamento
+![Banca Python — Banking simulator built with Python, PostgreSQL and Pandas](assets/banner.svg)
 
-L'applicazione usa PostgreSQL come **unica fonte dei dati**. Non usa CSV o liste Python come archivi permanenti.
+# Banca Python
 
-1. All'avvio si collega a PostgreSQL: se non riesce a connettersi, il programma **non parte**.
-2. Se mancano tutte le tabelle, esegue `schema.sql` **senza eliminare dati esistenti**. Se mancano solo alcune tabelle, si interrompe e segnala uno schema parziale.
-3. Legge le filiali presenti nel database. Se ce n'è una sola, la seleziona automaticamente. Se ci sono più filiali, sceglierne una dal menu **Filiali**. Se non ci sono filiali, crearne una.
-4. A ogni comando la view chiede i dati al controller; il controller interroga il repository SQL. Nessuna lettura parte da CSV o da cache in memoria.
-5. Le creazioni/modifiche e operazioni economiche vengono registrate direttamente nel database, con `COMMIT` per ogni operazione completata e `ROLLBACK` in caso di errore. **Non esiste un comando Salva**.
-6. I CSV sono soltanto una funzione manuale e separata di import/export per entità.
+**A database-first banking management simulator, built as a modular Python terminal application.**
 
-## Struttura
+[![Python](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Pandas](https://img.shields.io/badge/Pandas-Analytics-150458?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![Tests](https://github.com/ilmuratore/banca-python/actions/workflows/tests.yml/badge.svg)](https://github.com/ilmuratore/banca-python/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-10B981)](LICENSE)
 
+**[🇮🇹 Documentazione in italiano](LEGGIMI.md)** · [Architecture](docs/ARCHITECTURE.md) · [Demo datasets](docs/DATASETS.md)
+
+</div>
+
+## Overview
+
+Banca Python is a command-line application that simulates everyday bank-branch workflows. It combines an object-oriented domain model, a controller/view separation, transactional PostgreSQL persistence, explicit CSV import/export and exploratory data analysis with Pandas.
+
+Unlike a CSV-backed exercise, **PostgreSQL is the source of truth**. The application reads from the database on demand, and successful operations are persisted immediately. CSV files are used only when the user requests an import or export.
+
+> [!NOTE]
+> This is a portfolio and educational **simulation**, not banking software for production or real financial data. It does not provide customer authentication, regulatory controls or a real payment network.
+
+## Features
+
+| Area | What you can do |
+| --- | --- |
+| **Branches & staff** | Configure branches, manage employees and their roles, and manage ATMs. |
+| **Customers & accounts** | Create and update customer records, open accounts and view account details. |
+| **Transactions** | Deposit cash or checks, withdraw using a selected ATM and inspect transaction history. |
+| **Financing & investments** | Submit loan/mortgage requests, approve or reject requests and register investments. |
+| **PostgreSQL** | Automatically initialize a new schema, use SQL transactions and guard account balances against conflicting operations. |
+| **CSV interoperability** | Manually import/export entities with validation, transactional import and explicit confirmation. |
+| **Analytics** | Filter and aggregate data with Pandas, join tables, build pivot tables and generate charts. |
+
+### Data visualization
+
+The **Pandas** menu can export four kinds of PNG charts from PostgreSQL data:
+
+- Customer count by segment (bar chart)
+- Customer segment distribution (pie chart)
+- Monthly transaction volume (line chart)
+- Account balance distribution (histogram)
+
+Charts are saved under `data/csv/<BRANCH_CODE>/grafici/` and are intentionally excluded from version control.
+
+## Tech stack
+
+**Python 3.11+** · **PostgreSQL** · **psycopg 3** · **Pandas** · **Matplotlib** · **unittest**
+
+## Project structure
+
+```text
+banca-python/
+├── assets/                  # README banner
+├── controllers/             # Application use cases and validations
+├── data/csv/FIL001/         # Versioned, synthetic demonstration data
+├── docs/                    # Architecture, dataset guide, SQL checks
+├── models/                  # Domain objects, enums, business exceptions
+├── repository/              # PostgreSQL queries and transactions
+├── scripts/                 # Synthetic dataset generator
+├── services/                # CSV handling and Pandas analytics
+├── tests/                   # Unit tests and SQL transaction simulations
+├── views/                   # Interactive terminal menus
+├── main.py                  # Application entry point
+├── schema.sql               # Database initialization schema
+└── requirements.txt
 ```
-banca/
-  main.py
-  requirements.txt
-  schema.sql
-  models/                         # classi didattiche, proprietà e validazioni
-  views/menu.py                   # menu di terminale, lettura input, stampe
-  controllers/banca_controller.py # azioni applicative e oggetti dei model
-  repository/postgresql.py       # select/insert/update e transazioni
-  services/csv_service.py        # file CSV, solo su comando esplicito
-  tests/                          # verifiche automatiche
-  data/csv/                       # cartella generata solo quando si esporta
-```
 
-## Preparazione ambiente
+See [the architecture guide](docs/ARCHITECTURE.md) for the request flow and persistence rules.
 
-Usare Python 3.11+ e PostgreSQL avviato. In Windows, PowerShell o Git Bash:
+## Quick start
+
+### 1. Requirements
+
+- Python 3.11 or newer
+- A running PostgreSQL instance
+- A database user permitted to create tables and sequences in the target database
+
+### 2. Clone and install
 
 ```bash
-python -m venv venv
-# Windows: venv\Scripts\activate
-# Linux/macOS: source venv/bin/activate
-pip install -r requirements.txt
+git clone https://github.com/ilmuratore/banca-python.git
+cd banca-python
+python -m venv .venv
 ```
 
-Creare **il database `banca`**, non serve creare le tabelle manualmente:
+Activate the environment:
+
+```powershell
+# Windows PowerShell
+.\.venv\Scripts\Activate.ps1
+```
+
+```bash
+# Linux / macOS / Git Bash
+source .venv/bin/activate
+```
+
+Then install dependencies:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### 3. Create the PostgreSQL database
+
+Connect with `psql`, pgAdmin or DBeaver and run:
 
 ```sql
 CREATE DATABASE banca;
 ```
 
-Le credenziali sono definite tramite variabili di ambiente con questi default: `BANCA_DB_HOST=localhost`, `BANCA_DB_PORT=5432`, `BANCA_DB_NAME=banca`, `BANCA_DB_USER=postgres`, `BANCA_DB_PASSWORD=postgres`.
+**Do not manually execute `schema.sql` for an empty database:** the application creates its tables and sequences at startup. It will stop if it detects a partially initialized schema, rather than silently deleting or rebuilding data.
 
-Ad esempio in PowerShell:
+### 4. Configure your connection
+
+Environment variables control the connection:
+
+| Variable | Default |
+| --- | --- |
+| `BANCA_DB_HOST` | `localhost` |
+| `BANCA_DB_PORT` | `5432` |
+| `BANCA_DB_NAME` | `banca` |
+| `BANCA_DB_USER` | `postgres` |
+| `BANCA_DB_PASSWORD` | `postgres` |
+
+Set a password matching **your own local PostgreSQL setup** before launching the application:
 
 ```powershell
-$env:BANCA_DB_HOST="localhost"
-$env:BANCA_DB_NAME="banca"
-$env:BANCA_DB_USER="postgres"
-$env:BANCA_DB_PASSWORD="LA_TUA_PASSWORD"
+# Windows PowerShell
+$env:BANCA_DB_PASSWORD="your-local-password"
 python main.py
 ```
-
-In Git Bash:
 
 ```bash
-export BANCA_DB_PASSWORD='LA_TUA_PASSWORD'
+# Linux / macOS / Git Bash
+export BANCA_DB_PASSWORD='your-local-password'
 python main.py
 ```
 
-Per disabilitare la pulizia dello schermo durante test via pipe: `BANCA_NO_CLEAR=1`.
+The application reads **process environment variables directly**; it does not automatically load a `.env` file. Set `BANCA_NO_CLEAR=1` if you want the terminal to remain visible between menu actions.
 
-## Verifiche manuali indispensabili
+### 5. Explore the application
 
-1. Avviare `python main.py`, creare una filiale e un cliente, aprire un conto.
-2. Verificare i nuovi record in DBeaver con `SELECT * FROM cliente;` e `SELECT * FROM conto_corrente;` **senza chiudere l'app**.
-3. Eseguire un versamento di 100 euro, quindi `SELECT saldo FROM conto_corrente WHERE id_conto = ...;` e `SELECT * FROM movimento ORDER BY id_operazione DESC;`.
-4. Uscire dal programma e riavviarlo: la filiale unica è selezionata automaticamente e i dati sono ancora presenti nei menu.
-5. Provare un prelievo maggiore del saldo: deve fallire **senza** creare movimenti o alterare il saldo.
-6. Creare una richiesta prestito, approvarla una volta, verificare l'aumento del saldo. Una seconda approvazione deve fallire.
-7. Esportare una entità CSV e reimportarla per verificare che non crei duplicati. Provare un CSV malformato per verificare il rollback dell'intera importazione.
+Start by creating a branch, unless one already exists in the database. With a single branch, the application selects it automatically. Then create customers and accounts, register transactions, or load the synthetic demonstration dataset.
 
-## Import/export CSV
+## Synthetic demo data
 
-CSV: UTF-8 con BOM, separatore `;`, date `gg/mm/aaaa`, decimali con `,`, booleani `1` / `0`.
+The repository includes **1,400 fictional rows** across seven CSV files, 200 per entity, in [`data/csv/FIL001/`](data/csv/FIL001/). They include staff, ATMs, customers, accounts, movements, financing and investments. No real personal or financial records are included.
 
-Le entità sono: filiale, dipendenti, atm, clienti, conti, movimenti, finanziamenti, investimenti.
+1. Create or select the branch **`FIL001`** from the application (a branch cannot be created by CSV import).
+2. Open **`8. Import / Export CSV` → `2. Importa CSV entità`**.
+3. Import in this order: `dipendenti`, `atm`, `clienti`, `conti`, `movimenti`, `finanziamenti`, `investimenti`.
+4. Approve each import explicitly, then explore the reporting and Pandas menus.
 
-L'esportazione usa sempre `SELECT` PostgreSQL. L'importazione non è automatica: dal menu si sceglie entità, file e conferma con `SI`.
+To generate a fresh dataset for a different branch:
 
-- Filiali: modificano solo i dati della filiale selezionata, **non** il direttore associato.
-- Anagrafiche, personale, ATM, conti: nuovi record inseriti e record esistenti aggiornati; nessuna cancellazione automatica.
-- Conti: il saldo del CSV **non** viene mai importato. Per nuovi conti il saldo iniziale è zero. Il saldo è gestito soltanto da operazioni economiche.
-- Movimenti, finanziamenti, investimenti: ID già presenti sono saltati, **non riapplicati**; i nuovi record economici vengono applicati al conto con transazione SQL e relativi controlli. Per ricostruire un archivio da zero, importare nell'ordine: filiale creata dal menu, dipendenti, ATM, clienti, conti, movimenti, finanziamenti, investimenti. Alcuni investimenti storici potrebbero richiedere che i crediti precedenti siano già stati importati.
-- Importazione di dati non validi: **rollback** di tutte le righe del file corrente, nessuna importazione parziale.
-- L'esportazione dei conti riflette il saldo corrente in PostgreSQL; non modificare manualmente i saldi CSV per tentare di aggiornarlo.
+```bash
+python scripts/genera_dataset.py --filiale BR001 --record 200
+```
 
-**Attenzione:** i dati reali non devono essere importati in un ambiente didattico. Eseguire una copia di backup del database prima di importare CSV con operazioni economiche.
+For alternate ID ranges and important transaction/import caveats, read the [dataset guide](docs/DATASETS.md). **Use an isolated demonstration database and back up any existing data before import.**
 
-## Nota sui model
+## Testing
 
-I `models` originali sono conservati come classi di dominio e validazione. Il controller costruisce istanze per validare input e regole didattiche, **senza** usare i loro attributi come stato persistente o riapplicare localmente gli effetti monetari. I saldi sono modificati esclusivamente nel repository PostgreSQL sotto `SELECT ... FOR UPDATE`, per evitare che due operazioni concorrenti consumino lo stesso saldo.
-
-## Test
+Run the database-free unit test suite:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-I test automatici senza database coprono model, view, CSV e alcune regole di transazione tramite simulatori. Il collaudo su PostgreSQL reale è separato, come indicato nella sezione Verifiche manuali.
+The tests exercise domain/controller behavior, CSV validation, SQL command construction and simulated transactions. **They do not replace an end-to-end test against a running PostgreSQL server.** A separate manual verification checklist and SQL checks are provided in [the architecture guide](docs/ARCHITECTURE.md) and [`docs/sql/VERIFICA_IMPORT.sql`](docs/sql/VERIFICA_IMPORT.sql).
+
+GitHub Actions runs the unit tests on supported Python versions for commits and pull requests.
+
+## Roadmap
+
+This project is intentionally a terminal-based simulator. Possible future extensions include integration tests with disposable PostgreSQL instances, richer reporting and a web interface. These are **ideas**, not implemented features.
+
+## License
+
+Released under the [MIT License](LICENSE). Copyright © 2026 Simone Iengo.

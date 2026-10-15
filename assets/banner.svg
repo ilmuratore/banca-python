@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="370" viewBox="0 0 1280 370" role="img" aria-label="Banca Python: database-first banking simulator with PostgreSQL and Pandas">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#101b2d"/>
+      <stop offset="52%" stop-color="#10283a"/>
+      <stop offset="100%" stop-color="#072f39"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#54e7cb"/>
+      <stop offset="100%" stop-color="#66c7f4"/>
+    </linearGradient>
+    <linearGradient id="surface" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#203e50"/>
+      <stop offset="100%" stop-color="#132e40"/>
+    </linearGradient>
+    <pattern id="dots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#78d9d1" opacity=".16"/>
+    </pattern>
+  </defs>
+  <rect width="1280" height="370" rx="21" fill="url(#background)"/>
+  <path d="M0 305 C250 190 362 430 655 308 S1080 210 1280 325" fill="none" stroke="#61e4ce" stroke-opacity=".11" stroke-width="2"/>
+  <path d="M0 340 C245 225 400 457 676 340 S1092 238 1280 347" fill="none" stroke="#61e4ce" stroke-opacity=".10" stroke-width="2"/>
+  <rect x="700" width="580" height="370" fill="url(#dots)"/>
+
+  <g transform="translate(67 59)" fill="none" stroke="url(#accent)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M0 33 38 9 76 33"/>
+    <path d="M9 42h58M9 95h58M0 105h76"/>
+    <path d="M18 45v47M38 45v47M58 45v47"/>
+  </g>
+  <text x="168" y="122" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="800" font-size="76" letter-spacing="-3" fill="#f4fbff">BANCA<tspan fill="#55e3c9">.</tspan></text>
+  <text x="72" y="202" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="700" font-size="24" letter-spacing="5" fill="#b9d6e3">PYTHON BANKING SIMULATOR</text>
+  <text x="72" y="250" font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="400" font-size="19" fill="#abc5d3">Data-first architecture. Real SQL transactions.</text>
+  <g font-family="Inter,Segoe UI,Arial,sans-serif" font-weight="600" font-size="15" letter-spacing=".5">
+    <rect x="72" y="281" width="106" height="36" rx="18" fill="#194b50"/>
+    <text x="125" y="304" fill="#81f4df" text-anchor="middle">Python</text>
+    <rect x="190" y="281" width="143" height="36" rx="18" fill="#214254"/>
+    <text x="261" y="304" fill="#abdff5" text-anchor="middle">PostgreSQL</text>
+    <rect x="345" y="281" width="106" height="36" rx="18" fill="#2c3d5c"/>
+    <text x="398" y="304" fill="#c9d6ff" text-anchor="middle">Pandas</text>
+  </g>
+
+  <g transform="translate(764 38)">
+    <rect width="440" height="294" rx="15" fill="#0a1d2b" stroke="#376074" stroke-width="1.5"/>
+    <rect width="440" height="47" rx="15" fill="url(#surface)"/>
+    <rect y="30" width="440" height="17" fill="url(#surface)"/>
+    <circle cx="23" cy="24" r="6" fill="#eb777d"/>
+    <circle cx="45" cy="24" r="6" fill="#e3c06d"/>
+    <circle cx="67" cy="24" r="6" fill="#67d9aa"/>
+    <text x="218" y="29" fill="#b5cedb" font-size="14" text-anchor="middle" font-family="Consolas,monospace">banking / analytics</text>
+    <text x="25" y="90" fill="#80f2d9" font-size="15" font-family="Consolas,monospace">$ python main.py</text>
+    <text x="25" y="124" fill="#b9d1dd" font-size="14" font-family="Consolas,monospace">PostgreSQL   <tspan fill="#7ae6bc">● connected</tspan></text>
+    <text x="25" y="156" fill="#b9d1dd" font-size="14" font-family="Consolas,monospace">Transactions <tspan fill="#7ae6bc">● atomic</tspan></text>
+    <path d="M25 173H415" stroke="#31536a" stroke-width="1"/>
+    <text x="25" y="202" fill="#a9c7d9" font-size="13" font-family="Consolas,monospace">Customer segments</text>
+    <rect x="25" y="220" width="253" height="9" rx="4.5" fill="#173c4b"/>
+    <rect x="25" y="220" width="198" height="9" rx="4.5" fill="#5cdcbf"/>
+    <rect x="25" y="240" width="253" height="9" rx="4.5" fill="#173c4b"/>
+    <rect x="25" y="240" width="136" height="9" rx="4.5" fill="#69bfe8"/>
+    <rect x="25" y="260" width="253" height="9" rx="4.5" fill="#173c4b"/>
+    <rect x="25" y="260" width="81" height="9" rx="4.5" fill="#9eafef"/>
+    <path d="M331 266V202m0 64h84" stroke="#52788e" stroke-width="1.4" fill="none"/>
+    <path d="M335 251 355 240 372 243 392 214 410 224" fill="none" stroke="#70e5cc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <rect x="1" y="1" width="1278" height="368" rx="20" fill="none" stroke="#38717b" stroke-opacity=".55" stroke-width="2"/>
+</svg>

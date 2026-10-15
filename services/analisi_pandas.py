@@ -59,13 +59,6 @@ class AnalisiPandas:
             saldo_medio=('saldo' , 'mean')
         )
 
-    # #crosstab
-    # def incrocio_movimenti(self, codice_filiale):
-    #     df = self.tabella('movimenti', codice_filiale)
-    #     if df.empty : return pd.DataFrame()
-    #     return pd.crosstab(df['canale'], df['tipo'])
-
-    #pivot_table
     def incrocio_movimenti(self, codice_filiale):
         movimenti = self.tabella('movimenti', codice_filiale)
         movimenti['importo'] = pd.to_numeric(movimenti['importo'], errors='coerce')
