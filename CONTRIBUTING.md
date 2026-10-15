@@ -1,25 +1,27 @@
 # Contributing
 
-This repository is a portfolio project and an educational banking simulation. Small, focused contributions that improve correctness, tests, documentation or usability are welcome.
+> **Language:** English · [Italiano](docs/it/CONTRIBUIRE.md)
 
-## Local setup
+Banca Python is a personal portfolio project and an educational banking simulation. Small, well-scoped contributions that improve correctness, tests, documentation or usability are welcome.
 
-Follow the [README](README.md) to create a virtual environment and install dependencies.
+## Setup and checks
 
-Run the unit tests before submitting a change:
+Follow the [README](README.md#quick-start) to install the Python dependencies. Before opening a pull request, run:
 
 ```bash
 python -m unittest discover -s tests -v
+python scripts/check_docs_links.py
 ```
 
-The unit test suite does not require a PostgreSQL server. Changes to SQL persistence or financial workflows should also be checked against a disposable PostgreSQL database, using the checklist in [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+The unit tests do not need a live PostgreSQL server. Changes to persistence or financial flows should also be tested against a disposable PostgreSQL database using the checklist in [Development](docs/DEVELOPMENT.md).
 
 ## Pull requests
 
-- Create a dedicated branch and keep each PR limited to one topic.
-- Describe what changes and how you validated it.
+- Work in a dedicated branch; keep each pull request focused on one topic.
+- Explain what changed and how you validated it.
 - Add or update tests when changing behavior.
-- Never commit passwords, production financial data, locally exported CSVs or generated charts.
-- Preserve the distinction between the PostgreSQL source of truth and explicit CSV import/export.
+- Update both the English and Italian documentation when changing documented behavior.
+- Never commit passwords, real financial/personal data, locally exported CSVs or generated charts.
+- Preserve PostgreSQL as the source of truth; CSV operations are always explicit.
 
-The codebase currently uses Italian names for most domain objects and menus. Respect existing naming conventions within related modules.
+Domain identifiers and the terminal interface are primarily Italian; preserve existing conventions within related modules. See [Architecture](docs/ARCHITECTURE.md) and [Security](SECURITY.md).

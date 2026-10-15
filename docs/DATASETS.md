@@ -1,81 +1,80 @@
-# Dataset dimostrativi (CSV sintetici)
+# Synthetic datasets
 
-La repository include un set di CSV **completamente fittizi** destinati a esplorare le funzionalità del simulatore. Non contiene dati personali o bancari reali.
+> **Language:** English · [Italiano](it/DATASET.md) · [Back to README](../README.md)
 
-## File inclusi
+The repository contains a **fully synthetic dataset** for exploring the application. No real customer identities, financial information or bank accounts are included.
 
-I file si trovano in [`../data/csv/FIL001/`](../data/csv/FIL001/).
+## Included files
 
-| File | Record | Contenuto |
+All files are available in [`data/csv/FIL001/`](../data/csv/FIL001/).
+
+| File | Rows | Description |
 | --- | ---: | --- |
-| `dipendenti.csv` | 200 | Gestori, specialisti e addetti alla sicurezza |
-| `atm.csv` | 200 | ATM con stati differenti |
-| `clienti.csv` | 200 | Clienti e segmenti |
-| `conti.csv` | 200 | Un conto per cliente, saldo iniziale `0,00` |
-| `movimenti.csv` | 200 | Versamenti e prelievi |
-| `finanziamenti.csv` | 200 | Richieste, approvazioni e rifiuti |
-| `investimenti.csv` | 200 | Investimenti con profili di rischio diversi |
+| `dipendenti.csv` | 200 | Bank employees, specialists and security staff |
+| `atm.csv` | 200 | ATMs in different operational states |
+| `clienti.csv` | 200 | Fictional customers and segments |
+| `conti.csv` | 200 | One account per customer, starting balance `0,00` |
+| `movimenti.csv` | 200 | Deposits and withdrawals |
+| `finanziamenti.csv` | 200 | Loans and mortgages in different approval states |
+| `investimenti.csv` | 200 | Investments with different risk profiles |
 
-**Totale: 1.400 righe su sette file.** La filiale non è inclusa: va creata dall'applicazione, non mediante CSV.
+**Total: 1,400 records in seven CSV files.** Branch records are not part of the demo dataset; create a branch in the application before importing its data.
 
-## Importazione dei dati inclusi
+## Import the sample data
 
-1. Avviare `python main.py` con PostgreSQL configurato.
-2. Creare o selezionare la filiale identificata da **`FIL001`**.
-3. Aprire **8. Import / Export CSV → 2. Importa CSV entità**.
-4. Importare una per volta le entità nell'ordine indicato sotto, confermando con `SI`.
+1. Configure PostgreSQL and launch the application with `python main.py`.
+2. Create or select a branch with code **`FIL001`**.
+3. Select **`8. Import / Export CSV` → `2. Importa CSV entità`**.
+4. Import one file at a time, explicitly confirming with `SI`.
 
-Ordine consigliato: **dipendenti → atm → clienti → conti → movimenti → finanziamenti → investimenti**.
+**Required order:** `dipendenti` → `atm` → `clienti` → `conti` → `movimenti` → `finanziamenti` → `investimenti`.
 
-Il menu propone come percorso predefinito `data/csv/FIL001/<entita>.csv`. Per una filiale diversa è possibile indicare un percorso personalizzato.
+The default file path follows `data/csv/FIL001/<entity>.csv`. You can enter another path when prompted.
 
-**Importante:** importare dati su un database già popolato può aggiornare record con ID coincidenti o ignorare operazioni già presenti. Usare un database di demo isolato ed eseguire un backup prima dell'importazione.
+> [!WARNING]
+> An import into an existing database may update matching nonfinancial IDs or skip previously imported financial-operation IDs. Use a disposable demo database and take a backup before importing.
 
-## Generare un nuovo dataset
+## Generate more data
 
-Eseguire dalla directory principale della repository:
+From the repository root:
 
 ```bash
 python scripts/genera_dataset.py --filiale BR001 --record 200
 ```
 
-I file vengono scritti in `data/csv/BR001/`. La filiale `BR001` deve esistere già nel database per consentire l'importazione.
+This writes seven files under `data/csv/BR001/`. Create branch `BR001` in the application before importing them.
 
-Parametri utili:
+Additional examples:
 
 ```bash
 python scripts/genera_dataset.py --filiale BR001 --record 50 --out data/csv
 python scripts/genera_dataset.py --filiale BR001 --base-clienti 110001 --base-dipendenti 120001 --base-conti 130001 --base-operazioni 140001
 ```
 
-Il parametro `--record` accetta valori da 4 a 999. Il generatore usa un seed deterministico nel codice, così la produzione degli stessi dati risulta riproducibile.
+`--record` supports 4–999 rows per file. The generator uses a fixed random seed, making equivalent runs reproducible.
 
-## Identificativi e sicurezza dei dati
+## Identifiers and format
 
-I dati predefiniti iniziano con:
-
-| Tipo | Primo ID |
+| Entity | First ID |
 | --- | ---: |
-| Clienti | 10001 |
-| Dipendenti | 20001 |
-| Conti | 30001 |
-| Movimenti | 40001 |
-| Finanziamenti | 41001 |
-| Investimenti | 42001 |
+| Customers | 10001 |
+| Employees | 20001 |
+| Accounts | 30001 |
+| Movements | 40001 |
+| Financing | 41001 |
+| Investments | 42001 |
 
-I codici fiscali sono segnaposto alfanumerici sintetici; le email terminano in `example.com` e i recapiti sono inventati. **Non sono identità reali.** I 200 ATM e 200 dipendenti in una sola filiale sono volutamente sovradimensionati per esercitare import, query e analisi.
+- Encoding: UTF-8 with BOM (`utf-8-sig`)
+- Delimiter: semicolon (`;`)
+- Dates: `dd/mm/yyyy`
+- Decimal separator: comma (`120,50`)
+- Booleans: `1` or `0`
+- Headers: exact column names and order expected by `ServizioCSV`
 
-## Formato CSV
+Fictional fiscal-code placeholders, `example.com` email addresses and synthetic phone numbers are intentional. The size of the sample staff/ATM lists is intended for stress-free demo exploration, not realism.
 
-- Codifica: `utf-8-sig` (UTF-8 con BOM)
-- Separatore: `;`
-- Date: `gg/mm/aaaa`
-- Decimali: `,` (es. `120,50`)
-- Booleani: `1` e `0`
-- Intestazioni: ordine e nomi esattamente previsti da `ServizioCSV`
+The `saldo` field in imported account files **does not overwrite balances**. Account balances are produced by financial operations. Financial operations whose IDs already exist are not reapplied.
 
-Il saldo del conto contenuto nel CSV non viene applicato all'importazione; viene ricostruito dalle operazioni economiche. Gli ID di operazioni già presenti vengono ignorati, non riaccreditati o riaddebitati.
+## Validate the import
 
-## Verifica in SQL
-
-Aprire [`sql/VERIFICA_IMPORT.sql`](sql/VERIFICA_IMPORT.sql) in DBeaver oppure nel proprio client PostgreSQL. Le query sono in sola lettura e verificano conteggi, saldi, movimenti e stati dei finanziamenti. Sostituire il codice `FIL001` nelle query se si usa un'altra filiale.
+Open [`sql/VERIFICA_IMPORT.sql`](sql/VERIFICA_IMPORT.sql) in DBeaver or another PostgreSQL client. The read-only queries inspect record counts, balances, movements and financing states. Replace `FIL001` if using another branch.

@@ -1,4 +1,4 @@
-name: Python tests
+name: Python checks
 
 on:
   push:
@@ -28,3 +28,5 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
+      - name: Verify documentation links
+        run: python scripts/check_docs_links.py

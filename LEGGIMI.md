@@ -10,7 +10,7 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-4169E1?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Test](https://github.com/ilmuratore/banca-python/actions/workflows/tests.yml/badge.svg)](https://github.com/ilmuratore/banca-python/actions/workflows/tests.yml)
 
-**[English README](README.md)** · [Architettura](docs/ARCHITECTURE.md) · [Dataset dimostrativi](docs/DATASETS.md)
+**[English README](README.md)** · [Guida all'utilizzo](docs/it/GUIDA_UTENTE.md) · [Architettura](docs/it/ARCHITETTURA.md) · [Dataset](docs/it/DATASET.md)
 
 </div>
 
@@ -64,7 +64,11 @@ Attivare l'ambiente in **PowerShell**:
 Oppure in **Linux, macOS o Git Bash**:
 
 ```bash
+# Linux / macOS
 source .venv/bin/activate
+
+# Git Bash su Windows
+source .venv/Scripts/activate
 ```
 
 Installare le librerie:
@@ -107,7 +111,36 @@ export BANCA_DB_PASSWORD='password-del-tuo-db'
 python main.py
 ```
 
-Il programma **non legge automaticamente** un file `.env`. La variabile `BANCA_NO_CLEAR=1` disattiva la pulizia del terminale.
+Il programma **non legge automaticamente** un file `.env`. Il file [`.env.example`](.env.example) è solo un esempio delle variabili supportate. La variabile `BANCA_NO_CLEAR=1` disattiva la pulizia del terminale.
+
+### Opzione: PostgreSQL locale con Docker Compose
+
+Se Docker Compose è installato, [`compose.yaml`](compose.yaml) avvia PostgreSQL 16 in locale sulla porta `5433`, evitando conflitti con un'eventuale installazione già presente:
+
+```bash
+docker compose up -d
+```
+
+Impostare le credenziali della demo:
+
+```powershell
+# PowerShell
+$env:BANCA_DB_HOST="localhost"
+$env:BANCA_DB_PORT="5433"
+$env:BANCA_DB_NAME="banca"
+$env:BANCA_DB_USER="banca_demo"
+$env:BANCA_DB_PASSWORD="banca_demo_local_only"
+python main.py
+```
+
+```bash
+# Git Bash / Linux / macOS
+export BANCA_DB_HOST=localhost BANCA_DB_PORT=5433 BANCA_DB_NAME=banca
+export BANCA_DB_USER=banca_demo BANCA_DB_PASSWORD=banca_demo_local_only
+python main.py
+```
+
+Le credenziali nel file Compose sono **solo per una demo locale eliminabile**. `docker compose down` arresta il servizio; `docker compose down -v` **cancella anche il volume del database**.
 
 ## Prima esecuzione e demo
 
@@ -125,7 +158,7 @@ Generare ulteriori dataset:
 python scripts/genera_dataset.py --filiale FIL002 --record 200
 ```
 
-Per formati, intestazioni, import e personalizzazione degli ID consultare [la guida ai dataset](docs/DATASETS.md).
+Per formati, intestazioni, import e personalizzazione degli ID consultare [la guida ai dataset](docs/it/DATASET.md).
 
 ## Test
 
@@ -133,7 +166,21 @@ Per formati, intestazioni, import e personalizzazione degli ID consultare [la gu
 python -m unittest discover -s tests -v
 ```
 
-I test automatici utilizzano principalmente simulatori e non richiedono un database PostgreSQL attivo. Per un collaudo con database reale è necessaria un'ulteriore verifica manuale: consultare [l'architettura](docs/ARCHITECTURE.md) e le [query SQL](docs/sql/VERIFICA_IMPORT.sql).
+I test automatici utilizzano principalmente simulatori e non richiedono un database PostgreSQL attivo. Per un collaudo con database reale è necessaria un'ulteriore verifica manuale: consultare [l'architettura](docs/it/ARCHITETTURA.md) e le [query SQL](docs/sql/VERIFICA_IMPORT.sql).
+
+## Documentazione completa
+
+| Italiano | English |
+| --- | --- |
+| [Guida all'utilizzo](docs/it/GUIDA_UTENTE.md) | [User guide](docs/USER_GUIDE.md) |
+| [Architettura](docs/it/ARCHITETTURA.md) | [Architecture](docs/ARCHITECTURE.md) |
+| [Dataset](docs/it/DATASET.md) | [Datasets](docs/DATASETS.md) |
+| [Sviluppo](docs/it/SVILUPPO.md) | [Development](docs/DEVELOPMENT.md) |
+| [Contribuire](docs/it/CONTRIBUIRE.md) | [Contributing](CONTRIBUTING.md) |
+| [Sicurezza](docs/it/SICUREZZA.md) | [Security](SECURITY.md) |
+| [Registro modifiche](docs/it/CHANGELOG.md) | [Changelog](CHANGELOG.md) |
+
+Il menu del terminale e gli identificatori del dominio rimangono in italiano. Il software è una simulazione, non un sistema bancario destinato alla produzione.
 
 ## Licenza
 
