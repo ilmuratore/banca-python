@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: banca
+      POSTGRES_USER: banca_demo
+      POSTGRES_PASSWORD: banca_demo_local_only
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - banca_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U banca_demo -d banca"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  banca_pgdata:

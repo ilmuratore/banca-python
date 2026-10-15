@@ -1,5 +1,7 @@
 # Architecture and technical notes
 
+> **Language:** English · [Italiano](it/ARCHITETTURA.md) · [Back to README](../README.md)
+
 Banca Python is a terminal application based on an **MVC-inspired separation**, a PostgreSQL repository and dedicated CSV/analytics services. PostgreSQL is the system of record: Python domain objects do not act as an independent persistent database.
 
 ## Components

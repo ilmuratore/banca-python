@@ -12,7 +12,7 @@
 [![Tests](https://github.com/ilmuratore/banca-python/actions/workflows/tests.yml/badge.svg)](https://github.com/ilmuratore/banca-python/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-10B981)](LICENSE)
 
-**[🇮🇹 Documentazione in italiano](LEGGIMI.md)** · [Architecture](docs/ARCHITECTURE.md) · [Demo datasets](docs/DATASETS.md)
+**[Read in Italian / Italiano](LEGGIMI.md)** · [User guide](docs/USER_GUIDE.md) · [Architecture](docs/ARCHITECTURE.md) · [Datasets](docs/DATASETS.md)
 
 </div>
 
@@ -56,22 +56,23 @@ Charts are saved under `data/csv/<BRANCH_CODE>/grafici/` and are intentionally e
 
 ```text
 banca-python/
-├── assets/                  # README banner
+├── assets/                  # README banner and social preview
 ├── controllers/             # Application use cases and validations
 ├── data/csv/FIL001/         # Versioned, synthetic demonstration data
 ├── docs/                    # Architecture, dataset guide, SQL checks
 ├── models/                  # Domain objects, enums, business exceptions
 ├── repository/              # PostgreSQL queries and transactions
-├── scripts/                 # Synthetic dataset generator
+├── scripts/                 # Demo generator and documentation checker
 ├── services/                # CSV handling and Pandas analytics
 ├── tests/                   # Unit tests and SQL transaction simulations
 ├── views/                   # Interactive terminal menus
+├── compose.yaml             # Optional localhost PostgreSQL demo
 ├── main.py                  # Application entry point
 ├── schema.sql               # Database initialization schema
 └── requirements.txt
 ```
 
-See [the architecture guide](docs/ARCHITECTURE.md) for the request flow and persistence rules.
+See [Architecture](docs/ARCHITECTURE.md) for the request flow and persistence rules; [User guide](docs/USER_GUIDE.md) for a practical walkthrough.
 
 ## Quick start
 
@@ -97,8 +98,11 @@ Activate the environment:
 ```
 
 ```bash
-# Linux / macOS / Git Bash
+# Linux / macOS
 source .venv/bin/activate
+
+# Git Bash on Windows
+source .venv/Scripts/activate
 ```
 
 Then install dependencies:
@@ -143,7 +147,36 @@ export BANCA_DB_PASSWORD='your-local-password'
 python main.py
 ```
 
-The application reads **process environment variables directly**; it does not automatically load a `.env` file. Set `BANCA_NO_CLEAR=1` if you want the terminal to remain visible between menu actions.
+The application reads **process environment variables directly**; it does not automatically load a `.env` file. [`.env.example`](.env.example) documents the supported values but is not automatically loaded. Set `BANCA_NO_CLEAR=1` if you want the terminal to remain visible between menu actions.
+
+### Optional: local PostgreSQL with Docker Compose
+
+If Docker Compose is installed, [`compose.yaml`](compose.yaml) starts a **local-only PostgreSQL 16 demo instance** on port `5433`, avoiding clashes with a locally installed PostgreSQL server:
+
+```bash
+docker compose up -d
+```
+
+Configure the app to connect to this demo container:
+
+```powershell
+# Windows PowerShell
+$env:BANCA_DB_HOST="localhost"
+$env:BANCA_DB_PORT="5433"
+$env:BANCA_DB_NAME="banca"
+$env:BANCA_DB_USER="banca_demo"
+$env:BANCA_DB_PASSWORD="banca_demo_local_only"
+python main.py
+```
+
+```bash
+# Linux / macOS / Git Bash
+export BANCA_DB_HOST=localhost BANCA_DB_PORT=5433 BANCA_DB_NAME=banca
+export BANCA_DB_USER=banca_demo BANCA_DB_PASSWORD=banca_demo_local_only
+python main.py
+```
+
+The Compose credentials are **for disposable local demonstrations only**. Stop the service with `docker compose down`; `docker compose down -v` also **deletes its database volume**.
 
 ### 5. Explore the application
 
@@ -177,6 +210,20 @@ python -m unittest discover -s tests -v
 The tests exercise domain/controller behavior, CSV validation, SQL command construction and simulated transactions. **They do not replace an end-to-end test against a running PostgreSQL server.** A separate manual verification checklist and SQL checks are provided in [the architecture guide](docs/ARCHITECTURE.md) and [`docs/sql/VERIFICA_IMPORT.sql`](docs/sql/VERIFICA_IMPORT.sql).
 
 GitHub Actions runs the unit tests on supported Python versions for commits and pull requests.
+
+## Documentation
+
+| English (main) | Italiano |
+| --- | --- |
+| [User guide](docs/USER_GUIDE.md) | [Guida all'utilizzo](docs/it/GUIDA_UTENTE.md) |
+| [Architecture](docs/ARCHITECTURE.md) | [Architettura](docs/it/ARCHITETTURA.md) |
+| [Datasets](docs/DATASETS.md) | [Dataset](docs/it/DATASET.md) |
+| [Development](docs/DEVELOPMENT.md) | [Sviluppo](docs/it/SVILUPPO.md) |
+| [Contributing](CONTRIBUTING.md) | [Contribuire](docs/it/CONTRIBUIRE.md) |
+| [Security](SECURITY.md) | [Sicurezza](docs/it/SICUREZZA.md) |
+| [Changelog](CHANGELOG.md) | [Registro modifiche](docs/it/CHANGELOG.md) |
+
+The terminal UI and domain model identifiers are currently Italian in both language guides. The implementation is a simulation, not production banking infrastructure.
 
 ## Roadmap
 
